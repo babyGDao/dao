@@ -17,6 +17,26 @@ const ethers = require('ethers');
 const BabyCardAddr = process.env.REACT_APP_CONTRACT_BABYCARD + ""
 const usdtAddr = process.env.REACT_APP_TOKEN_USDT + ""
 const tokenkAddr = process.env.REACT_APP_TOKEN_TOKEN + ""
+const dayTime = process.env.REACT_APP_DAY + ""
+
+const incomeRule = [
+  {
+    ratio: 1,
+    multiple: 2.0
+  },
+  {
+    ratio: 1.2,
+    multiple: 2.2
+  },
+  {
+    ratio: 1.3,
+    multiple: 2.3
+  },
+  {
+    ratio: 1.4,
+    multiple: 2.5
+  }
+]
 
 function Card() {
   const { t } = useTranslation()
@@ -200,6 +220,34 @@ function Card() {
     }, 2000);
   }
 
+  const BonusValue = (item: any) => {
+    let rule = {
+      ratio: 0,
+      multiple: 0
+    };
+    if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(100, 18))) {
+      rule = incomeRule[0]
+    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(500, 18))) {
+      rule = incomeRule[1]
+    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1000, 18))) {
+      rule = incomeRule[2]
+    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1500, 18))) {
+      rule = incomeRule[3]
+    }
+    console.log(rule)
+    const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
+    // amount * 倍数 - (income + (nowIndex - settleDayIndex) * 每天收益)
+    let amount1 = new BigNumber(item.amount.toString()).multipliedBy(rule.multiple).minus(item.income.toString()).toString()
+    let amount3 = new BigNumber(new BigNumber(timeNow).minus(item.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(item.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
+    let returnAmount = new BigNumber(amount1).minus(amount3).toString()
+
+    if (!new BigNumber(returnAmount).isGreaterThan(0)) {
+      returnAmount = "0"
+    }
+
+    return fromTokenValue(returnAmount, 18, 3)
+  }
+
   return (<>
     <HeadBar />
     <div className=" main">
@@ -354,12 +402,12 @@ function Card() {
         }} >
           {
             cards && cards.map((item: any, index: number) => {
-              return <div className='flex' key={index}>
+              return <div className={index % 2 == 1 ? "rounded-md border p-1 m-1 flex " : " rounded-md border p-1 m-1  flex"} key={index}>
                 <div className=' w-1/2'>
                   <p><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
                 </div>
                 <div className=' w-1/2'>
-                  <p><span className='mainTextColor'>{1}</span></p>
+                  <p><span className='mainTextColor'>{BonusValue(item)}</span></p>
                 </div>
               </div>
             })
