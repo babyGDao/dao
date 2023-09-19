@@ -1,8 +1,13 @@
 {
   "files": {
-    "main.css": "./static/css/main.81c3e14c.css",
-    "main.js": "./static/js/main.0ece6804.js",
+    "main.css": "./static/css/main.c2851412.css",
+    "main.js": "./static/js/main.b0be073b.js",
     "static/js/787.8916439e.chunk.js": "./static/js/787.8916439e.chunk.js",
+    "static/media/banner1.png": "./static/media/banner1.051b24fabdc27f3d820d.png",
+    "static/media/banner.png": "./static/media/banner.ce40bd29dea9100ba8e2.png",
+    "static/media/earth.png": "./static/media/earth.94fe254c6ee692c25f53.png",
+    "static/media/sun.png": "./static/media/sun.172bd395be9ae2e29727.png",
+    "static/media/moon.png": "./static/media/moon.c31ca495f067946a93a9.png",
     "static/media/logo.png": "./static/media/logo.ea70a84cd5d7cf100116.png",
     "static/media/level0.png": "./static/media/level0.6c7ac25b70e10b8a8bf6.png",
     "static/media/level3.png": "./static/media/level3.8aaf239fb954e1f69a36.png",
@@ -15,13 +20,14 @@
     "static/media/labor6.png": "./static/media/labor6.384c7daee31d301a2253.png",
     "static/media/labor5.png": "./static/media/labor5.1e450497194956a182c4.png",
     "static/media/labor7.png": "./static/media/labor7.f9362822c16d0ba54092.png",
+    "static/media/start.png": "./static/media/start.16428d3762eb449c181a.png",
     "index.html": "./index.html",
-    "main.81c3e14c.css.map": "./static/css/main.81c3e14c.css.map",
-    "main.0ece6804.js.map": "./static/js/main.0ece6804.js.map",
+    "main.c2851412.css.map": "./static/css/main.c2851412.css.map",
+    "main.b0be073b.js.map": "./static/js/main.b0be073b.js.map",
     "787.8916439e.chunk.js.map": "./static/js/787.8916439e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.81c3e14c.css",
-    "static/js/main.0ece6804.js"
+    "static/css/main.c2851412.css",
+    "static/js/main.b0be073b.js"
   ]
 }

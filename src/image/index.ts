@@ -21,5 +21,11 @@ import labor7Icon from './labor7.png'
 import ipoIcon from './ipo.png'
 import ecologyIcon from './ecology.png'
 import cardIcon from './card.png'
+import startIcon from './start.png';
+import moonIcon from './moon.png';
+import earthIcon from './earth.png';
+import sunIcon from './sun.png';
+import bannerIcon from './banner.png';
+import bannerIcon1 from './banner1.png';
 
-export { menuIcon, copyIcon, homeIcon, wealthIcon, planIcon, communityIcon, languageIcon, enusIcon, enznIcon, level0Icon, level1Icon, level2Icon, level3Icon, level4Icon, level5Icon, level6Icon, level7Icon, labor5Icon, labor6Icon, labor7Icon, ipoIcon, ecologyIcon, cardIcon }
+export { menuIcon, copyIcon, homeIcon, wealthIcon, planIcon, communityIcon, languageIcon, enusIcon, enznIcon, level0Icon, level1Icon, level2Icon, level3Icon, level4Icon, level5Icon, level6Icon, level7Icon, labor5Icon, labor6Icon, labor7Icon, ipoIcon, ecologyIcon, cardIcon, startIcon, moonIcon, earthIcon, sunIcon, bannerIcon, bannerIcon1 }

@@ -11,6 +11,7 @@ import { Contract } from '@ethersproject/contracts'
 import ERC20ABI from '../../abi/ERC20.json';
 import HeadBar from '../../components/headbar'
 import { useTranslation } from 'react-i18next'
+import { earthIcon, moonIcon, startIcon, sunIcon } from '../../image'
 
 const ethers = require('ethers');
 
@@ -248,6 +249,21 @@ function Card() {
     return fromTokenValue(returnAmount, 18, 3)
   }
 
+  const ruleIcon = (item: any) => {
+    let icon
+    if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(100, 18))) {
+      icon = <img className=' w-8 h-8' src={startIcon} alt="" />
+    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(500, 18))) {
+      icon = <img className=' w-8 h-8' src={moonIcon} alt="" />
+    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1000, 18))) {
+      icon = <img className=' w-8 h-8' src={earthIcon} alt="" />
+    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1500, 18))) {
+      icon = <img className=' w-8 h-8' src={sunIcon} alt="" />
+    }
+
+    return icon;
+  }
+
   return (<>
     <HeadBar />
     <div className=" main">
@@ -402,9 +418,10 @@ function Card() {
         }} >
           {
             cards && cards.map((item: any, index: number) => {
-              return <div className={index % 2 == 1 ? "rounded-md border p-1 m-1 flex " : " rounded-md border p-1 m-1  flex"} key={index}>
-                <div className=' w-1/2'>
-                  <p><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
+              return <div className="rounded-md border p-1 m-1 flex leading-8 " key={index}>
+                <div className=' w-1/2 flex'>
+                  {ruleIcon(item)}
+                  <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
                 </div>
                 <div className=' w-1/2'>
                   <p><span className='mainTextColor'>{BonusValue(item)}</span></p>
