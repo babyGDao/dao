@@ -1,0 +1,95 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "cardType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "amoutOutMin",
+        "type": "uint256"
+      }
+    ],
+    "name": "buyCard",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "getUserInfo",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "scale",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "balance",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "withdrawAmount",
+            "type": "uint256"
+          },
+          {
+            "components": [
+              {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "income",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "settleDayIndex",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IBabyCard.Card[]",
+            "name": "cards",
+            "type": "tuple[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "inviteValue",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "maxZone",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct IBabyCard.User",
+        "name": "user",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

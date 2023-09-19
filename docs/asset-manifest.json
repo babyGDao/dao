@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "./static/css/main.4a925e49.css",
+    "main.js": "./static/js/main.5c558b52.js",
+    "static/js/787.8916439e.chunk.js": "./static/js/787.8916439e.chunk.js",
+    "static/media/logo.png": "./static/media/logo.ea70a84cd5d7cf100116.png",
+    "static/media/level0.png": "./static/media/level0.6c7ac25b70e10b8a8bf6.png",
+    "static/media/level3.png": "./static/media/level3.8aaf239fb954e1f69a36.png",
+    "static/media/level6.png": "./static/media/level6.ff86f8ff3e37ece2984e.png",
+    "static/media/level2.png": "./static/media/level2.60935c066cfcbd7a0721.png",
+    "static/media/level5.png": "./static/media/level5.d524c32cd03dbd790915.png",
+    "static/media/level1.png": "./static/media/level1.fa5f7608c9b90c127859.png",
+    "static/media/level7.png": "./static/media/level7.0a300d60599344e8b384.png",
+    "static/media/level4.png": "./static/media/level4.cb3ca06743e23cf3f098.png",
+    "static/media/labor6.png": "./static/media/labor6.384c7daee31d301a2253.png",
+    "static/media/labor5.png": "./static/media/labor5.1e450497194956a182c4.png",
+    "static/media/labor7.png": "./static/media/labor7.f9362822c16d0ba54092.png",
+    "index.html": "./index.html",
+    "main.4a925e49.css.map": "./static/css/main.4a925e49.css.map",
+    "main.5c558b52.js.map": "./static/js/main.5c558b52.js.map",
+    "787.8916439e.chunk.js.map": "./static/js/787.8916439e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.4a925e49.css",
+    "static/js/main.5c558b52.js"
+  ]
+}

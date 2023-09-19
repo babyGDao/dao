@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.App {
+    height: 100vh;
+    max-height: 100vh;
+    overflow: scroll;
+    background: rgb(240,240,240);
+    /* background: rgb(235, 242, 239); */
+    /* background: linear-gradient(338deg, rgba(235, 242, 239, 1) 0%, rgba(20, 253, 0, 0.4220281862745098) 100%); */
+}
+
+.main {
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.mainTextColor {
+    color: rgb(60, 125, 104);
+}
+
+.borderMain {
+    border-color: rgb(60, 125, 104);
+}
+/* border-2 px-5 py-1 rounded-full   borderMain text-white' */
+.selectAmount{
+    border: 2px solid rgb(60, 125, 104);
+    background-color: rgb(60, 125, 104);
+    padding: 4px 12px;
+    color: white;
+    border-radius: 100px;
+}
+
+.unSelectAmount{
+    border: 2px solid rgb(60, 125, 104);
+    padding: 4px 12px;
+    border-radius: 100px;
+}
