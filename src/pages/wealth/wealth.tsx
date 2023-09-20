@@ -191,11 +191,11 @@ function Wealth() {
                     </div>
                 })
             }
-            <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+            {/* <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
                 <p className=' indent-8 text-sm'>
                     {t("plan1")}
                 </p>
-            </div>
+            </div> */}
         </div>
     </>
     )

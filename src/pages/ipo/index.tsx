@@ -48,6 +48,7 @@ function Ipo() {
     // leaveNum
     const getLeaveNum = async () => {
         let data = await Promise.all([await communityContract?.leaveNum("3"), await communityContract?.leaveNum("5"), await communityContract?.leaveNum("6"), await communityContract?.leaveNum("7")])
+        console.log("data",data)
         setLeaveNum3(data[0].toString())
         setLeaveNum5(data[1].toString())
         setLeaveNum6(data[2].toString())

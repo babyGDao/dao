@@ -12,7 +12,6 @@ import ERC20ABI from '../../abi/ERC20.json';
 import HeadBar from '../../components/headbar'
 import { useTranslation } from 'react-i18next'
 import { earthIcon, moonIcon, startIcon, sunIcon } from '../../image'
-import { multiply } from '../../utils/utils'
 
 const ethers = require('ethers');
 
@@ -61,6 +60,8 @@ function Card() {
   const [upLevel, setUpLevel] = useState<boolean>(false);
   const [upLevelPop, setUpLevelPop] = useState<boolean>(false);
 
+  const [teamAmount,setTeamAmount]= useState<string>("0");
+
   useEffect(() => {
     init()
   }, [account])
@@ -74,6 +75,7 @@ function Card() {
       let data = await babyCardContract?.getUserInfo(account);
       console.log("data getUserInfo", data)
       setCards(data.cards)
+      setTeamAmount(data.inviteValue.toString())
       if (data.cards.length > 0) {
         let lastCardData = data.cards[data.cards.length - 1]
         setLastCardAmount(lastCardData.amount.toString())
@@ -410,6 +412,7 @@ function Card() {
         </div>
       </div>
 
+
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className='mainTextColor font-bold'>宝贝卡牌种类, <span className=' text-sm  font-normal'>让共识世界更有趣</span></div>
         <div className=' flex py-3'>
@@ -444,6 +447,7 @@ function Card() {
             </div>
 
           </div>
+
           <div className=' flex-1'>
             <p className=' text-center' style={{
               lineHeight: "80px"
@@ -471,14 +475,24 @@ function Card() {
       </div>
 
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+        <div className='flex text-center'>
+          <div className=' w-1/2'>
+            <p className=' text-gray-400 '>个人做市金额</p>
+            <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(lastCardAmount, 18, 2)} <span className=' text-sm '>UDST</span></p>
+          </div>
+          <div className=' w-1/2'>
+            <p className=' text-gray-400 '>社区做市金额</p>
+            <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(teamAmount, 18, 2)} <span className=' text-sm '>UDST</span></p>
+          </div>
+        </div>
         <div className=' flex'>
-          <div className='w-2/3'>
+          <div className='w-1/2'>
             <div className='text-center'>
               <p className=' text-gray-400 '>资金池</p>
-              <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 3)}UDST</p>
+              <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 2)} <span className=' text-sm '>UDST</span> </p>
             </div>
           </div>
-          <div className='w-1/3'>
+          <div className='w-1/2'>
             <p className=' text-center' style={{ lineHeight: "60px" }}>
               <span className=' border-solid border rounded-3xl py-2 px-4 mainTextColor font-bold borderMain cursor-pointer'
                 onClick={() => {
@@ -492,7 +506,7 @@ function Card() {
 
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className=' flex'>
-          <p className='mainTextColor font-bold w-1/2 '> {t("depositRecord")}</p>
+          <p className='mainTextColor font-bold w-1/2 ml-11'> {t("depositRecord")}</p>
           <p className='mainTextColor font-bold w-1/4 '> 分红值</p>
           <p className='mainTextColor font-bold w-1/4 '>
 

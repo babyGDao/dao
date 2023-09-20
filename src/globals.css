@@ -6,7 +6,7 @@
     height: 100vh;
     max-height: 100vh;
     overflow: scroll;
-    background: rgb(240,240,240);
+    background: rgb(240, 240, 240);
     /* background: rgb(235, 242, 239); */
     /* background: linear-gradient(338deg, rgba(235, 242, 239, 1) 0%, rgba(20, 253, 0, 0.4220281862745098) 100%); */
 }
@@ -23,17 +23,26 @@
 .borderMain {
     border-color: rgb(60, 125, 104);
 }
+
 /* border-2 px-5 py-1 rounded-full   borderMain text-white' */
-.selectAmount{
+.selectAmount {
     border: 2px solid rgb(60, 125, 104);
     background-color: rgb(60, 125, 104);
-    padding: 4px 12px;
+    display: block;
+    width: 70px;
+    height: 32px;
+    line-height: 30px;
+
     color: white;
     border-radius: 100px;
 }
 
-.unSelectAmount{
+.unSelectAmount {
+    width: 70px;
+    height: 32px;
+    line-height: 30px;
+    display: block;
     border: 2px solid rgb(60, 125, 104);
-    padding: 4px 12px;
+    width: 66px;
     border-radius: 100px;
 }
