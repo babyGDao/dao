@@ -9,20 +9,16 @@ import HeadBar from "../../components/headbar";
 import { useTranslation } from "react-i18next";
 import { useCommunityNetContract } from "../../hooks/useContract";
 
-const ethers = require('ethers');
 const communityAddr = process.env.REACT_APP_CONTRACT_COMMUNITY + "";
 const link = process.env.REACT_APP_LINK + "";
 
 function Community() {
   const { t } = useTranslation()
-
   const { account } = useWeb3React()
   const communityContract = useCommunityNetContract(communityAddr);
-
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingState, setLoadingState] = useState<string>("loading")
   const [loadingText, setLoadingText] = useState<string>("")
-
   const [inviteAwardValue, setInviteAwardValue] = useState<string>("0")
   const [scaleAwardValue, setScaleAwardValue] = useState<string>("0")
   const [contributionAwardValue, setContributionAwardValue] = useState<string>("0")

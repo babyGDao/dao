@@ -223,18 +223,18 @@ function Card() {
 
   const BonusValue = (item: any) => {
     let rule = {
-      ratio: 0,
-      multiple: 0
+      ratio: 1,
+      multiple: 2
     };
-    if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(100, 18))) {
-      rule = incomeRule[0]
-    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(500, 18))) {
-      rule = incomeRule[1]
-    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1000, 18))) {
-      rule = incomeRule[2]
-    } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1500, 18))) {
-      rule = incomeRule[3]
-    }
+    // if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(100, 18))) {
+    //   rule = incomeRule[0]
+    // } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(500, 18))) {
+    //   rule = incomeRule[1]
+    // } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1000, 18))) {
+    //   rule = incomeRule[2]
+    // } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1500, 18))) {
+    //   rule = incomeRule[3]
+    // }
     console.log(rule)
     const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
     // amount * 倍数 - (income + (nowIndex - settleDayIndex) * 每天收益)

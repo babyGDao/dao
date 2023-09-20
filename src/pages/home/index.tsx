@@ -43,8 +43,6 @@ export default function Home({ }) {
       label: 'bannerIcon',
       imgPath:bannerIcon,
     },
-    
-    
   ];
 
   const maxSteps = images.length;
