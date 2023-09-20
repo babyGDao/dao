@@ -7,6 +7,11 @@
         "type": "uint256"
       },
       {
+        "internalType": "bool",
+        "name": "upgrade",
+        "type": "bool"
+      },
+      {
         "internalType": "uint256",
         "name": "amoutOutMin",
         "type": "uint256"

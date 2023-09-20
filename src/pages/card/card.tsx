@@ -12,6 +12,7 @@ import ERC20ABI from '../../abi/ERC20.json';
 import HeadBar from '../../components/headbar'
 import { useTranslation } from 'react-i18next'
 import { earthIcon, moonIcon, startIcon, sunIcon } from '../../image'
+import { multiply } from '../../utils/utils'
 
 const ethers = require('ethers');
 
@@ -54,8 +55,11 @@ function Card() {
   const [joinPop, setJoinPop] = useState<boolean>(false)
 
   const [cards, setCards] = useState<any>([]);
-  const [withDrawAmount, setWithDrawAmount] = useState<string>("0")
+  const [withDrawAmount, setWithDrawAmount] = useState<string>("0");
 
+  const [lastCardAmount, setLastCardAmount] = useState<string>("0");
+  const [upLevel, setUpLevel] = useState<boolean>(false);
+  const [upLevelPop, setUpLevelPop] = useState<boolean>(false);
 
   useEffect(() => {
     init()
@@ -70,14 +74,26 @@ function Card() {
       let data = await babyCardContract?.getUserInfo(account);
       console.log("data getUserInfo", data)
       setCards(data.cards)
+      if (data.cards.length > 0) {
+        let lastCardData = data.cards[data.cards.length - 1]
+        setLastCardAmount(lastCardData.amount.toString())
+        if (new BigNumber(lastCardData.amount.toString()).multipliedBy(2).isLessThanOrEqualTo(lastCardData.income.toString())) {
+          setUpLevel(false)
+        } else {
+          setUpLevel(true)
+        }
+      } else {
+        setUpLevel(false)
+      }
       setAccountBalance(data.balance.toString());
       setWithDrawAmount(data.withdrawAmount.toString());
     } catch (error) {
+      setUpLevel(false)
       setCards([])
     }
   }
 
-  const sendBuyCard = async () => {
+  const sendBuyCard = async (buyType: boolean) => {
 
     let usdtErc20 = new Contract(usdtAddr, ERC20ABI, getProviderOrSigner(library, account || "") as any);
     const allowance: any = await usdtErc20?.allowance(account, BabyCardAddr);
@@ -86,9 +102,16 @@ function Card() {
     setLoadingState("loading")
     setLoadingText(`${t("TransactionPacking")}`)
     let flag
+    let dataAmount;
+    if (buyType) {
+      dataAmount = new BigNumber(sendAmount).minus(new BigNumber(lastCardAmount).dividedBy(10 ** 18).toString()).toString();
+    } else {
+      dataAmount = sendAmount
+    }
+    console.log("dataAmount", dataAmount)
 
-    if (new BigNumber(allowance.toString()).isLessThan(toTokenValue(sendAmount, decimals)) && !flag) {
-      sendApprove(usdtErc20, BabyCardAddr, sendBuyCard)
+    if (new BigNumber(allowance.toString()).isLessThan(toTokenValue(dataAmount, decimals)) && !flag) {
+      sendApprove(usdtErc20, BabyCardAddr, sendBuyCard, buyType)
     } else {
       setLoadingState("loading")
       setLoadingText(`${t("TransactionPacking")}`)
@@ -104,11 +127,11 @@ function Card() {
         type = 3
       }
       try {
-        let info = await routerContract?.getAmountsOut(toTokenValue(new BigNumber(sendAmount).multipliedBy(10).multipliedBy(70).dividedBy(10000).toString(), decimals), [usdtAddr, tokenkAddr])
+        let info = await routerContract?.getAmountsOut(toTokenValue(new BigNumber(dataAmount).multipliedBy(10).multipliedBy(70).dividedBy(10000).toString(), decimals), [usdtAddr, tokenkAddr])
         console.log("sendJoin info", info, info.toString(), info[1].toString())
-        const gas: any = await babyCardContract?.estimateGas.buyCard(type, info[1].toString(), { from: account })
+        const gas: any = await babyCardContract?.estimateGas.buyCard(type, buyType, info[1].toString(), { from: account })
         console.log("sendJoin gas", gas)
-        const response = await babyCardContract?.buyCard(type, info[1].toString(), {
+        const response = await babyCardContract?.buyCard(type, buyType, info[1].toString(), {
           from: account,
           gasLimit: gas.mul(105).div(100)
         });
@@ -120,6 +143,7 @@ function Card() {
           if (receipt.status && receipt.status == 1) {
             init()
             setJoinPop(false)
+            setUpLevelPop(false)
             setSendAmount("")
             setChange(!change)
             sendLoadingSuccess()
@@ -135,7 +159,6 @@ function Card() {
   }
 
   const sendWithdraw = async () => {
-
     setLoading(true)
     setLoadingState("loading")
     setLoadingText(`${t("TransactionPacking")}`)
@@ -162,7 +185,7 @@ function Card() {
     }
   }
 
-  const sendApprove = async (approveContract: any, approveAddress: string, send: Function, leaveType?: number) => {
+  const sendApprove = async (approveContract: any, approveAddress: string, send: Function, leaveType?: any) => {
     setLoadingState("loading")
     setLoadingText(`${t("Authorizing")}`)
     try {
@@ -226,16 +249,6 @@ function Card() {
       ratio: 1,
       multiple: 2
     };
-    // if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(100, 18))) {
-    //   rule = incomeRule[0]
-    // } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(500, 18))) {
-    //   rule = incomeRule[1]
-    // } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1000, 18))) {
-    //   rule = incomeRule[2]
-    // } else if (new BigNumber(item.amount.toString()).isEqualTo(toTokenValue(1500, 18))) {
-    //   rule = incomeRule[3]
-    // }
-    console.log(rule)
     const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
     // amount * 倍数 - (income + (nowIndex - settleDayIndex) * 每天收益)
     let amount1 = new BigNumber(item.amount.toString()).multipliedBy(rule.multiple).minus(item.income.toString()).toString()
@@ -304,7 +317,76 @@ function Card() {
                   if (sendAmount == "") {
                     return
                   }
-                  sendBuyCard()
+                  sendBuyCard(false)
+                }}
+              > {t("confirm")}</span>
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={upLevelPop}
+        onClose={() => {
+          setUpLevelPop(false)
+        }}
+        sx={{
+          '& .MuiDialog-paper': {
+            width: 300,
+            maxWidth: '80%',
+            background: '#fff',
+          }
+        }}
+        maxWidth="md"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <div>
+            <p className=" font-bold text-xl mainTextColor mb-2  ">升级铸造宝贝卡牌</p>
+          </div>
+          <div>
+            <div className='flex flex-wrap'>
+              {
+                new BigNumber(lastCardAmount).isLessThan(new BigNumber(500).multipliedBy(10 ** 18).toString()) ? <div className='flex-1'>
+                  <p className=' text-center leading-10'>
+                    <span onClick={() => {
+                      setSendAmount("500")
+                    }} className={sendAmount == "500" ? "selectAmount" : "unSelectAmount"}> 500</span>
+                  </p>
+                </div> : <></>
+              }
+              {
+                new BigNumber(lastCardAmount).isLessThan(new BigNumber(1000).multipliedBy(10 ** 18).toString()) ? <div className='flex-1'>
+                  <p className=' text-center leading-10'>
+                    <span onClick={() => {
+                      setSendAmount("1000")
+                    }} className={sendAmount == "1000" ? "selectAmount" : "unSelectAmount"}> 1000</span>
+                  </p>
+                </div> : <></>
+              }
+
+              {
+                new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ? <div className='flex-1'>
+                  <p className=' text-center leading-10'>
+                    <span onClick={() => {
+                      setSendAmount("1500")
+                    }} className={sendAmount == "1500" ? "selectAmount" : "unSelectAmount"}> 1500</span>
+                  </p>
+                </div> : <></>
+              }
+
+            </div>
+          </div>
+
+          <div className=" mt-5  text-center">
+            <p>
+              <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
+                onClick={() => {
+                  if (sendAmount == "" || new BigNumber(sendAmount).multipliedBy(10 ** 18).isLessThan(lastCardAmount)) {
+                    return
+                  }
+                  sendBuyCard(true)
                 }}
               > {t("confirm")}</span>
             </p>
@@ -366,21 +448,23 @@ function Card() {
             <p className=' text-center' style={{
               lineHeight: "80px"
             }}>
-              <span className=' border-solid border rounded-3xl py-2 px-4 mainTextColor font-bold borderMain cursor-pointer'
-                onClick={() => {
-                  if (new BigNumber(sendAmount).isZero() || sendAmount == "") {
-                    setLoading(true)
-                    setLoadingState("error")
-                    setLoadingText("请选择卡牌类型")
-                    setTimeout(() => {
-                      setLoadingState("")
-                      setLoading(false)
-                    }, 2000);
-                    return
-                  }
-                  setJoinPop(true)
-                }}
-              >参与铸造 </span>
+              {
+                !upLevel ? <span className=' border-solid border rounded-3xl py-2 px-4 mainTextColor font-bold borderMain cursor-pointer'
+                  onClick={() => {
+                    if (new BigNumber(sendAmount).isZero() || sendAmount == "") {
+                      setLoading(true)
+                      setLoadingState("error")
+                      setLoadingText("请选择卡牌类型")
+                      setTimeout(() => {
+                        setLoadingState("")
+                        setLoading(false)
+                      }, 2000);
+                      return
+                    }
+                    setJoinPop(true)
+                  }}
+                >参与铸造 </span> : <span className=' border-solid border rounded-3xl py-2 px-4 text-gray-400 font-bold  border-gray-400 cursor-pointer'> 参与铸造 </span>
+              }
             </p>
           </div>
         </div>
@@ -409,7 +493,17 @@ function Card() {
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className=' flex'>
           <p className='mainTextColor font-bold w-1/2 '> {t("depositRecord")}</p>
-          <p className='mainTextColor font-bold w-1/2 '>分红值</p>
+          <p className='mainTextColor font-bold w-1/4 '> 分红值</p>
+          <p className='mainTextColor font-bold w-1/4 '>
+
+            {
+              upLevel ? <span className=' border-solid border rounded-3xl py-1 px-4 mainTextColor font-bold borderMain cursor-pointer'
+                onClick={() => {
+                  setUpLevelPop(true)
+                }}
+              >升级 </span> : <span className=' border-solid border rounded-3xl py-1 px-4 text-gray-400 font-bold  border-gray-400 cursor-pointer'> 升级 </span>
+            }
+          </p>
         </div>
 
         <div className=' pt-2 pb-4 ' style={{
@@ -417,8 +511,8 @@ function Card() {
           overflow: 'scroll'
         }} >
           {
-            cards && cards.map((item: any, index: number) => {
-              return <div className="rounded-md border p-1 m-1 flex leading-8 " key={index}>
+            cards && cards.reverse().map((item: any, index: number) => {
+              return <div className="rounded-md border p-1 flex leading-8 " key={index}>
                 <div className=' w-1/2 flex'>
                   {ruleIcon(item)}
                   <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
