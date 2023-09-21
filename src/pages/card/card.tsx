@@ -39,6 +39,11 @@ const incomeRule = [
   }
 ]
 
+const rule = {
+  ratio: 1,
+  multiple: 2
+};
+
 function Card() {
   const { t } = useTranslation()
   const babyCardContract = useBabyCardContract(BabyCardAddr)
@@ -60,7 +65,7 @@ function Card() {
   const [upLevel, setUpLevel] = useState<boolean>(false);
   const [upLevelPop, setUpLevelPop] = useState<boolean>(false);
 
-  const [teamAmount,setTeamAmount]= useState<string>("0");
+  const [teamAmount, setTeamAmount] = useState<string>("0");
 
   useEffect(() => {
     init()
@@ -70,20 +75,47 @@ function Card() {
     getUserInfo()
   }
 
+
+  const arrReverse = (arr: any) => {
+    var newArr = [];
+    for (var i = 0; i < arr.length; i++) {
+      newArr.unshift(arr[i]);
+    }
+    return newArr;
+  }
+
   const getUserInfo = async () => {
     try {
       let data = await babyCardContract?.getUserInfo(account);
       console.log("data getUserInfo", data)
-      setCards(data.cards)
+      if (data.cards.length > 1) {
+        setCards(arrReverse(data.cards))
+      } else {
+        setCards(data.cards)
+      }
+
       setTeamAmount(data.inviteValue.toString())
+
       if (data.cards.length > 0) {
-        let lastCardData = data.cards[data.cards.length - 1]
+        let lastCardData = data.cards[data.cards.length - 1];
         setLastCardAmount(lastCardData.amount.toString())
-        if (new BigNumber(lastCardData.amount.toString()).multipliedBy(2).isLessThanOrEqualTo(lastCardData.income.toString())) {
+
+        const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
+        let amount1 = new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.multiple).minus(lastCardData.income.toString()).toString()
+        let amount3 = new BigNumber(new BigNumber(timeNow).minus(lastCardData.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
+        let returnAmount = new BigNumber(amount1).minus(amount3).toString()
+
+        if (!new BigNumber(returnAmount).isGreaterThan(0)) {
           setUpLevel(false)
         } else {
           setUpLevel(true)
         }
+
+        // if (new BigNumber(lastCardData.amount.toString()).multipliedBy(2).isLessThanOrEqualTo(lastCardData.income.toString())) {
+        //   setUpLevel(false)
+        // } else {
+        //   setUpLevel(true)
+        // }
       } else {
         setUpLevel(false)
       }
@@ -247,10 +279,6 @@ function Card() {
   }
 
   const BonusValue = (item: any) => {
-    let rule = {
-      ratio: 1,
-      multiple: 2
-    };
     const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
     // amount * 倍数 - (income + (nowIndex - settleDayIndex) * 每天收益)
     let amount1 = new BigNumber(item.amount.toString()).multipliedBy(rule.multiple).minus(item.income.toString()).toString()
@@ -417,35 +445,62 @@ function Card() {
         <div className='mainTextColor font-bold'>宝贝卡牌种类, <span className=' text-sm  font-normal'>让共识世界更有趣</span></div>
         <div className=' flex py-3'>
           <div className=' flex-1 flex flex-wrap'>
-            <div className=' w-1/2'>
-              <p className=' text-center leading-10'>
-                <span onClick={() => {
-                  setSendAmount("100")
-                }} className={sendAmount == "100" ? "selectAmount" : "unSelectAmount"}> 100</span>
-              </p>
-            </div>
-            <div className=' w-1/2'>
-              <p className=' text-center leading-10'>
-                <span onClick={() => {
-                  setSendAmount("500")
-                }} className={sendAmount == "500" ? "selectAmount" : "unSelectAmount"}> 500</span>
-              </p>
-            </div>
-            <div className=' w-1/2'>
-              <p className=' text-center leading-10'>
-                <span onClick={() => {
-                  setSendAmount("1000")
-                }} className={sendAmount == "1000" ? "selectAmount" : "unSelectAmount"}> 1000</span>
-              </p>
-            </div>
-            <div className=' w-1/2'>
-              <p className=' text-center leading-10'>
-                <span onClick={() => {
-                  setSendAmount("1500")
-                }} className={sendAmount == "1500" ? "selectAmount" : "unSelectAmount"}> 1500</span>
-              </p>
-            </div>
+            {
+              !upLevel || new BigNumber(lastCardAmount).isLessThan(new BigNumber(100).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span onClick={() => {
+                    setSendAmount("100")
+                  }} className={sendAmount == "100" ? "selectAmount" : "unSelectAmount"}> 100</span>
+                </p>
+              </div> : <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span className="selectAmountDisable"> 100</span>
+                </p>
+              </div>
+            }
 
+
+            {
+              !upLevel || new BigNumber(lastCardAmount).isLessThan(new BigNumber(500).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span onClick={() => {
+                    setSendAmount("500")
+                  }} className={sendAmount == "500" ? "selectAmount" : "unSelectAmount"}> 500</span>
+                </p>
+              </div> : <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span className="selectAmountDisable"> 500</span>
+                </p>
+              </div>
+            }
+
+            {
+              !upLevel || new BigNumber(lastCardAmount).isLessThan(new BigNumber(1000).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span onClick={() => {
+                    setSendAmount("1000")
+                  }} className={sendAmount == "1000" ? "selectAmount" : "unSelectAmount"}> 1000</span>
+                </p>
+              </div> : <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span className="selectAmountDisable"> 1000</span>
+                </p>
+              </div>
+            }
+
+            {
+              new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span onClick={() => {
+                    setSendAmount("1500")
+                  }} className={sendAmount == "1500" ? "selectAmount" : "unSelectAmount"}> 1500</span>
+                </p>
+              </div> : <div className=' w-1/2'>
+                <p className=' text-center leading-10'>
+                  <span className="selectAmountDisable"> 1500</span>
+                </p>
+              </div>
+            }
           </div>
 
           <div className=' flex-1'>
@@ -525,8 +580,8 @@ function Card() {
           overflow: 'scroll'
         }} >
           {
-            cards && cards.reverse().map((item: any, index: number) => {
-              return <div className="rounded-md border p-1 flex leading-8 " key={index}>
+            cards && cards.map((item: any, index: number) => {
+              return <div className="rounded-md border p-1 flex leading-8 mb-2 " key={index}>
                 <div className=' w-1/2 flex'>
                   {ruleIcon(item)}
                   <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
