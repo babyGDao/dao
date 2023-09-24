@@ -564,7 +564,7 @@ function Card() {
             <p className='mainTextColor font-bold '>
 
               {
-                upLevel ? <span className=' border-solid border rounded-3xl py-1 px-4 mainTextColor font-bold borderMain cursor-pointer'
+                upLevel && new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10**18).toString()) ? <span className=' border-solid border rounded-3xl py-1 px-4 mainTextColor font-bold borderMain cursor-pointer'
                   onClick={() => {
                     setUpLevelPop(true)
                   }}
