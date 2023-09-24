@@ -93,9 +93,7 @@ function Card() {
       } else {
         setCards(data.cards)
       }
-
       setTeamAmount(data.inviteValue.toString())
-
       if (data.cards.length > 0) {
         let lastCardData = data.cards[data.cards.length - 1];
         setLastCardAmount(lastCardData.amount.toString());
@@ -103,7 +101,6 @@ function Card() {
         let amount1 = new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.multiple).minus(lastCardData.income.toString()).toString()
         let amount3 = new BigNumber(new BigNumber(timeNow).minus(lastCardData.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
         let returnAmount = new BigNumber(amount1).minus(amount3).toString()
-
         console.log("returnAmount", returnAmount)
         if (!new BigNumber(returnAmount).isGreaterThan(0)) {
           setUpLevel(false)
@@ -123,7 +120,6 @@ function Card() {
   }
 
   const sendBuyCard = async (buyType: boolean) => {
-
     let usdtErc20 = new Contract(usdtAddr, ERC20ABI, getProviderOrSigner(library, account || "") as any);
     const allowance: any = await usdtErc20?.allowance(account, BabyCardAddr);
     const decimals: any = await usdtErc20?.decimals()
@@ -145,7 +141,6 @@ function Card() {
       setLoadingState("loading")
       setLoadingText(`${t("TransactionPacking")}`)
       let type
-
       if (sendAmount == "100") {
         type = 0
       } else if (sendAmount == "500") {
@@ -155,6 +150,7 @@ function Card() {
       } else if (sendAmount == "1500") {
         type = 3
       }
+
       try {
         let info = await routerContract?.getAmountsOut(toTokenValue(new BigNumber(dataAmount).multipliedBy(10).multipliedBy(70).dividedBy(10000).toString(), decimals), [usdtAddr, tokenkAddr])
         console.log("sendJoin info", info, info.toString(), info[1].toString())
@@ -419,7 +415,7 @@ function Card() {
         </DialogContent>
       </Dialog>
       <div className='bg-white rounded-2xl  mt-32  mx-3 mb-5 p-3'>
-        <div className='flex text-center'>
+        <div className='flex '>
           <div className=' flex-1'>
             <p className=' text-sm text-gray-400'>USDT {t("walletBalance")}</p>
             <p className=' font-bold text-xl leading-loose'>
@@ -495,13 +491,11 @@ function Card() {
                 </p>
               </div>
             }
-            
+
           </div>
 
           <div className=' flex-1'>
-            <p className=' text-center' style={{
-              lineHeight: "80px"
-            }}>
+            <p className=' ' style={{ lineHeight: "80px" }}>
               {
                 !upLevel ? <span className=' border-solid border rounded-3xl py-2 px-4 mainTextColor font-bold borderMain cursor-pointer'
                   onClick={() => {
@@ -525,7 +519,7 @@ function Card() {
       </div>
 
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
-        <div className='flex text-center'>
+        <div className='flex '>
           <div className=' w-1/2'>
             <p className=' text-gray-400 '>个人做市金额</p>
             <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>
@@ -537,20 +531,19 @@ function Card() {
           <div className=' w-1/2'>
             <p className=' text-gray-400 '>社区做市金额</p>
             <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>
-
               {fromTokenValue(teamAmount, 18, 2)}
               <span className=' text-sm '>UDST</span></p>
           </div>
         </div>
         <div className=' flex'>
           <div className='w-1/2'>
-            <div className='text-center'>
+            <div className=''>
               <p className=' text-gray-400 '>资金池</p>
               <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 2)} <span className=' text-sm '>UDST</span> </p>
             </div>
           </div>
           <div className='w-1/2'>
-            <p className=' text-center' style={{ lineHeight: "60px" }}>
+            <p className=' ' style={{ lineHeight: "60px" }}>
               <span className=' border-solid border rounded-3xl py-2 px-4 mainTextColor font-bold borderMain cursor-pointer'
                 onClick={() => {
                   sendWithdraw()
