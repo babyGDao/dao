@@ -561,18 +561,22 @@ function Card() {
 
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className=' flex'>
-          <p className='mainTextColor font-bold w-1/2 ml-11'> {t("depositRecord")}</p>
-          <p className='mainTextColor font-bold w-1/4 '> 分红值</p>
-          <p className='mainTextColor font-bold w-1/4 '>
+          <div className='flex-1 flex'>
+            <p className='mainTextColor font-bold w-1/2 pl-11'> {t("depositRecord")}</p>
+            <p className='mainTextColor font-bold w-1/2 text-right pr-5'> 分红值</p>
+          </div>
+          <div style={{ width: "70px" }}>
+            <p className='mainTextColor font-bold '>
 
-            {
-              upLevel ? <span className=' border-solid border rounded-3xl py-1 px-4 mainTextColor font-bold borderMain cursor-pointer'
-                onClick={() => {
-                  setUpLevelPop(true)
-                }}
-              >升级 </span> : <span className=' border-solid border rounded-3xl py-1 px-4 text-gray-400 font-bold  border-gray-400 cursor-pointer'> 升级 </span>
-            }
-          </p>
+              {
+                upLevel ? <span className=' border-solid border rounded-3xl py-1 px-4 mainTextColor font-bold borderMain cursor-pointer'
+                  onClick={() => {
+                    setUpLevelPop(true)
+                  }}
+                >升级 </span> : <span className=' border-solid border rounded-3xl py-1 px-4 text-gray-400 font-bold  border-gray-400 cursor-pointer'> 升级 </span>
+              }
+            </p>
+          </div>
         </div>
 
         <div className=' pt-2 pb-4 ' style={{
@@ -582,13 +586,16 @@ function Card() {
           {
             cards && cards.map((item: any, index: number) => {
               return <div className="rounded-md border p-1 flex leading-8 mb-2 " key={index}>
-                <div className=' w-1/2 flex'>
-                  {ruleIcon(item)}
-                  <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
-                </div>
-                <div className=' w-1/2'>
-                  <p><span className='mainTextColor'>{BonusValue(item)}</span></p>
-                </div>
+                  <div className='flex-1 flex'>
+                    <div className=' w-1/2 flex'>
+                      {ruleIcon(item)}
+                      <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
+                    </div>
+                    <div className=' w-1/2 text-right pr-5'>
+                      <p><span className='mainTextColor'>{BonusValue(item)}</span></p>
+                    </div>
+                  </div>
+                  <div style={{ width: "70px" }}>&nbsp; </div>
               </div>
             })
           }
