@@ -98,24 +98,18 @@ function Card() {
 
       if (data.cards.length > 0) {
         let lastCardData = data.cards[data.cards.length - 1];
-        setLastCardAmount(lastCardData.amount.toString())
-
+        setLastCardAmount(lastCardData.amount.toString());
         const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
         let amount1 = new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.multiple).minus(lastCardData.income.toString()).toString()
         let amount3 = new BigNumber(new BigNumber(timeNow).minus(lastCardData.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
         let returnAmount = new BigNumber(amount1).minus(amount3).toString()
 
+        console.log("returnAmount", returnAmount)
         if (!new BigNumber(returnAmount).isGreaterThan(0)) {
           setUpLevel(false)
         } else {
           setUpLevel(true)
         }
-
-        // if (new BigNumber(lastCardData.amount.toString()).multipliedBy(2).isLessThanOrEqualTo(lastCardData.income.toString())) {
-        //   setUpLevel(false)
-        // } else {
-        //   setUpLevel(true)
-        // }
       } else {
         setUpLevel(false)
       }
@@ -124,6 +118,7 @@ function Card() {
     } catch (error) {
       setUpLevel(false)
       setCards([])
+      setLastCardAmount("0")
     }
   }
 
@@ -446,7 +441,7 @@ function Card() {
         <div className=' flex py-3'>
           <div className=' flex-1 flex flex-wrap'>
             {
-              !upLevel || new BigNumber(lastCardAmount).isLessThan(new BigNumber(100).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(100).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
                 <p className=' text-center leading-10'>
                   <span onClick={() => {
                     setSendAmount("100")
@@ -459,9 +454,8 @@ function Card() {
               </div>
             }
 
-
             {
-              !upLevel || new BigNumber(lastCardAmount).isLessThan(new BigNumber(500).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(500).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
                 <p className=' text-center leading-10'>
                   <span onClick={() => {
                     setSendAmount("500")
@@ -475,7 +469,7 @@ function Card() {
             }
 
             {
-              !upLevel || new BigNumber(lastCardAmount).isLessThan(new BigNumber(1000).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1000).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
                 <p className=' text-center leading-10'>
                   <span onClick={() => {
                     setSendAmount("1000")
@@ -489,7 +483,7 @@ function Card() {
             }
 
             {
-              new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ? <div className=' w-1/2'>
                 <p className=' text-center leading-10'>
                   <span onClick={() => {
                     setSendAmount("1500")
@@ -501,6 +495,7 @@ function Card() {
                 </p>
               </div>
             }
+            
           </div>
 
           <div className=' flex-1'>
@@ -533,11 +528,18 @@ function Card() {
         <div className='flex text-center'>
           <div className=' w-1/2'>
             <p className=' text-gray-400 '>个人做市金额</p>
-            <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(lastCardAmount, 18, 2)} <span className=' text-sm '>UDST</span></p>
+            <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>
+              {
+                !upLevel ? "0.00" : fromTokenValue(lastCardAmount, 18, 2)
+              }
+              <span className=' text-sm '>UDST</span></p>
           </div>
           <div className=' w-1/2'>
             <p className=' text-gray-400 '>社区做市金额</p>
-            <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(teamAmount, 18, 2)} <span className=' text-sm '>UDST</span></p>
+            <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>
+
+              {fromTokenValue(teamAmount, 18, 2)}
+              <span className=' text-sm '>UDST</span></p>
           </div>
         </div>
         <div className=' flex'>
@@ -586,16 +588,16 @@ function Card() {
           {
             cards && cards.map((item: any, index: number) => {
               return <div className="rounded-md border p-1 flex leading-8 mb-2 " key={index}>
-                  <div className='flex-1 flex'>
-                    <div className=' w-1/2 flex'>
-                      {ruleIcon(item)}
-                      <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
-                    </div>
-                    <div className=' w-1/2 text-right pr-5'>
-                      <p><span className='mainTextColor'>{BonusValue(item)}</span></p>
-                    </div>
+                <div className='flex-1 flex'>
+                  <div className=' w-1/2 flex'>
+                    {ruleIcon(item)}
+                    <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
                   </div>
-                  <div style={{ width: "70px" }}>&nbsp; </div>
+                  <div className=' w-1/2 text-right pr-5'>
+                    <p><span className='mainTextColor'>{BonusValue(item)}</span></p>
+                  </div>
+                </div>
+                <div style={{ width: "70px" }}>&nbsp; </div>
               </div>
             })
           }
