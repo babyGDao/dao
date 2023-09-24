@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
 import Collapse from '@mui/material/Collapse';
 import i18n from '../../i18n';
-import { useCommunityNetContract } from '../../hooks/useContract';
+import { useBabyCardContract, useCommunityNetContract } from '../../hooks/useContract';
 import { AddressZero } from '@ethersproject/constants'
 
 declare const window: Window & { ethereum: any, web3: any };
@@ -30,12 +30,13 @@ const BabyGameAddr = process.env.REACT_APP_CONTRACT_BABYGAME + ""
 const communityAddr = process.env.REACT_APP_CONTRACT_COMMUNITY + ""
 
 const TopAddr = process.env.REACT_APP_TOPINVITER + ""
-
+const BabyCardAddr = process.env.REACT_APP_CONTRACT_BABYCARD + ""
 
 function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
   const { t } = useTranslation()
   const { account } = useWeb3React();
   const communityContract = useCommunityNetContract(communityAddr);
+  const babyCardContract = useBabyCardContract(BabyCardAddr)
 
   const [menuOpen, setMenuOpen] = useState<boolean>(false)
   const navigate = useNavigate();
@@ -110,9 +111,12 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
   }, [isRegister])
 
   const getScale = async () => {
-    let data = await communityContract?.scale(account)
-    console.log("data getScale", data.toString())
-    setScale(data.toString())
+    try {
+      let data = await babyCardContract?.getUserInfo(account);
+      setScale(data.scale.toString())
+    } catch (error) {
+      setScale("0")
+    }
   }
 
   const levelHtml = () => {
@@ -184,6 +188,7 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
           isTopInviterData = false;
         }
         let dataInviter = await communityContract?.inviter(account);
+
         let isHaveInviterData
         if (dataInviter == AddressZero) {
           isHaveInviterData = false
@@ -195,7 +200,6 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
         if (params.shareAddress) {
         } else {
           if (isTopInviterData || isHaveInviterData) {
-            console.log(12)
           } else {
             navigate("/home")
           }
