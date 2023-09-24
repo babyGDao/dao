@@ -327,9 +327,9 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
         </div>
 
         <div className=' relative flex items-center justify-center  cursor-pointer'>
-          {
+          {/* {
             window.location.href.indexOf("card") != -1 ? levelHtml() : <></>
-          }
+          } */}
 
           {
             account ? <span className='ring-1 ring-black rounded-full px-2 py-1 inline-flex whitespace-nowrap items-center justify-center mr-3'  >

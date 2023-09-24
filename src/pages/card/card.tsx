@@ -1,6 +1,6 @@
 import { Dialog, DialogContent } from '@mui/material'
 import { useEffect, useState } from 'react'
-import { getProviderOrSigner, useBabyCardContract, useRouterContract } from '../../hooks/useContract'
+import { getProviderOrSigner, useBabyCardContract, useCommunityNetContract, useRouterContract } from '../../hooks/useContract'
 import { useWeb3React } from '@web3-react/core'
 import { fromTokenValue, toTokenValue } from '../../utils'
 import TokenBalance from '../../components/token/TokenBalance'
@@ -11,7 +11,7 @@ import { Contract } from '@ethersproject/contracts'
 import ERC20ABI from '../../abi/ERC20.json';
 import HeadBar from '../../components/headbar'
 import { useTranslation } from 'react-i18next'
-import { earthIcon, moonIcon, startIcon, sunIcon, upLevelIcon } from '../../image'
+import { earthIcon, labor5Icon, labor6Icon, labor7Icon, level0Icon, level1Icon, level2Icon, level3Icon, level4Icon, level5Icon, level6Icon, level7Icon, moonIcon, startIcon, sunIcon, upLevelIcon } from '../../image'
 
 const ethers = require('ethers');
 
@@ -19,6 +19,7 @@ const BabyCardAddr = process.env.REACT_APP_CONTRACT_BABYCARD + ""
 const usdtAddr = process.env.REACT_APP_TOKEN_USDT + ""
 const tokenkAddr = process.env.REACT_APP_TOKEN_TOKEN + ""
 const dayTime = process.env.REACT_APP_DAY + ""
+const communityAddr = process.env.REACT_APP_CONTRACT_COMMUNITY + ""
 
 const incomeRule = [
   {
@@ -47,6 +48,7 @@ const rule = {
 function Card() {
   const { t } = useTranslation()
   const babyCardContract = useBabyCardContract(BabyCardAddr)
+  const communityContract = useCommunityNetContract(communityAddr);
   const routerContract = useRouterContract();
   const { account, library } = useWeb3React()
   const [loading, setLoading] = useState<boolean>(false);
@@ -67,12 +69,30 @@ function Card() {
 
   const [teamAmount, setTeamAmount] = useState<string>("0");
 
+  const [scale, setScale] = useState<string>("0")
+  const [isLabor, setIsLabor] = useState<boolean>(false)
   useEffect(() => {
     init()
   }, [account])
 
   const init = () => {
     getUserInfo()
+    getScale()
+  }
+
+  const getScale = async () => {
+    try {
+      let data = await Promise.all([await babyCardContract?.getUserInfo(account), await communityContract?.scale(account)])
+      setScale(data[0].scale.toString());
+      if (new BigNumber(data[0].scale.toString()).isEqualTo(data[1].toString()) && new BigNumber(data[1].toString()).isGreaterThanOrEqualTo(5)) {
+        setIsLabor(true)
+      } else {
+        setIsLabor(false)
+      }
+    } catch (error) {
+      setScale("0")
+      setIsLabor(false)
+    }
   }
 
 
@@ -298,6 +318,38 @@ function Card() {
     return icon;
   }
 
+  const levelHtml = () => {
+    let Icon
+    if (isLabor) {
+      if (Number(scale) == 5) {
+        Icon = labor5Icon
+      } else if (Number(scale) == 6) {
+        Icon = labor6Icon
+      } else if (Number(scale) == 7) {
+        Icon = labor7Icon
+      }
+    } else {
+      if (Number(scale) == 0) {
+        Icon = level0Icon
+      } else if (Number(scale) == 1) {
+        Icon = level1Icon
+      } else if (Number(scale) == 2) {
+        Icon = level2Icon
+      } else if (Number(scale) == 3) {
+        Icon = level3Icon
+      } else if (Number(scale) == 4) {
+        Icon = level4Icon
+      } else if (Number(scale) == 5) {
+        Icon = level5Icon
+      } else if (Number(scale) == 6) {
+        Icon = level6Icon
+      } else if (Number(scale) == 7) {
+        Icon = level7Icon
+      }
+    }
+    return <img width={32} className=' mr-1' src={Icon} alt="" />
+  }
+
   return (<>
     <HeadBar />
     <div className=" main">
@@ -521,7 +573,7 @@ function Card() {
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className='flex '>
           <div className=' w-1/2'>
-            <p className=' text-gray-400 '>个人做市金额</p>
+            <p className=' text-gray-400 '>个人铸造金额</p>
             <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>
               {
                 !upLevel ? "0.00" : fromTokenValue(lastCardAmount, 18, 2)
@@ -529,7 +581,7 @@ function Card() {
               <span className=' text-sm '>UDST</span></p>
           </div>
           <div className=' w-1/2'>
-            <p className=' text-gray-400 '>社区做市金额</p>
+            <p className=' text-gray-400 '>社区铸造金额</p>
             <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>
               {fromTokenValue(teamAmount, 18, 2)}
               <span className=' text-sm '>UDST</span></p>
@@ -538,7 +590,13 @@ function Card() {
         <div className=' flex'>
           <div className='w-1/2'>
             <div className=''>
-              <p className=' text-gray-400 '>奖金池</p>
+              <div className='flex'>
+                {
+                  levelHtml()
+                }
+                <p className=' text-gray-400 leading-8'>奖金池</p>
+              </div>
+
               <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 2)} <span className=' text-sm '>UDST</span> </p>
             </div>
           </div>
