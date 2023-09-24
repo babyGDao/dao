@@ -456,7 +456,7 @@ function Card() {
             <p>
               <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
                 onClick={() => {
-                  if (sendAmount == "" || new BigNumber(sendAmount).multipliedBy(10 ** 18).isLessThan(lastCardAmount)) {
+                  if (sendAmount == "" || new BigNumber(sendAmount).multipliedBy(10 ** 18).isLessThanOrEqualTo(lastCardAmount)) {
                     return
                   }
                   sendBuyCard(true)
@@ -482,7 +482,6 @@ function Card() {
           </div>
         </div>
       </div>
-
 
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className='mainTextColor font-bold'>宝贝卡牌种类, <span className=' text-sm  font-normal'>让共识世界更有趣</span></div>
@@ -591,12 +590,11 @@ function Card() {
           <div className='w-1/2'>
             <div className=''>
               <div className='flex'>
+                <p className=' text-gray-400 leading-8 pr-1'>奖金池</p>
                 {
                   levelHtml()
                 }
-                <p className=' text-gray-400 leading-8'>奖金池</p>
               </div>
-
               <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 2)} <span className=' text-sm '>UDST</span> </p>
             </div>
           </div>
@@ -617,7 +615,6 @@ function Card() {
           <p className='mainTextColor font-bold w-1/2 pl-11'> {t("depositRecord")}</p>
           <p className='mainTextColor font-bold w-1/2 pr-5'> 分红值</p>
         </div>
-
         <div className=' pt-2 pb-4 ' style={{
           maxHeight: "330px",
           overflow: 'scroll'
