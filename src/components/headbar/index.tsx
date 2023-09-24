@@ -17,6 +17,7 @@ import Collapse from '@mui/material/Collapse';
 import i18n from '../../i18n';
 import { useBabyCardContract, useCommunityNetContract } from '../../hooks/useContract';
 import { AddressZero } from '@ethersproject/constants'
+import BigNumber from "bignumber.js";
 
 declare const window: Window & { ethereum: any, web3: any };
 
@@ -93,6 +94,7 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
   const [openLanguage, setOpenLanguage] = useState(false);
   const [openEcology, setOpenEcology] = useState(false);
   const [scale, setScale] = useState<string>("0")
+  const [isLabor, setIsLabor] = useState<boolean>(false)
 
   const handleClick = (type: string) => {
     if (type == "language") {
@@ -111,60 +113,56 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
   }, [isRegister])
 
   const getScale = async () => {
+    // let data = await communityContract?.scale("0x323cd466500e66EeAfA1ca901b09f638bD0f50Ce")
+    // let data = await communityContract?.scale(account)
+    // console.log("data communityContract getScale", data.toString())
+    // setScale(data.toString())
+    if (window.location.href.indexOf("card") == -1) {
+      return
+    }
+
     try {
-      let data = await babyCardContract?.getUserInfo(account);
-      setScale(data.scale.toString())
+      let data = await Promise.all([await babyCardContract?.getUserInfo(account), await communityContract?.scale(account)])
+      setScale(data[0].scale.toString());
+      if (new BigNumber(data[0].scale.toString()).isEqualTo(data[1].toString()) && new BigNumber(data[1].toString()).isGreaterThanOrEqualTo(5)) {
+        setIsLabor(true)
+      } else {
+        setIsLabor(false)
+      }
     } catch (error) {
       setScale("0")
+      setIsLabor(false)
     }
   }
 
   const levelHtml = () => {
     let Icon
-    // if (isLabor) {
-    //   if (Number(scale) == 5) {
-    //     Icon = labor5Icon
-    //   } else if (Number(scale) == 6) {
-    //     Icon = labor6Icon
-    //   } else if (Number(scale) == 7) {
-    //     Icon = labor7Icon
-    //   }
-    // } else {
-    //   if (Number(scale) == 0) {
-    //     Icon = level0Icon
-    //   } else if (Number(scale) == 1) {
-    //     Icon = level1Icon
-    //   } else if (Number(scale) == 2) {
-    //     Icon = level2Icon
-    //   } else if (Number(scale) == 3) {
-    //     Icon = level3Icon
-    //   } else if (Number(scale) == 4) {
-    //     Icon = level4Icon
-    //   } else if (Number(scale) == 5) {
-    //     Icon = level5Icon
-    //   } else if (Number(scale) == 6) {
-    //     Icon = level6Icon
-    //   } else if (Number(scale) == 7) {
-    //     Icon = level7Icon
-    //   }
-    // }
-
-    if (Number(scale) == 0) {
-      Icon = level0Icon
-    } else if (Number(scale) == 1) {
-      Icon = level1Icon
-    } else if (Number(scale) == 2) {
-      Icon = level2Icon
-    } else if (Number(scale) == 3) {
-      Icon = level3Icon
-    } else if (Number(scale) == 4) {
-      Icon = level4Icon
-    } else if (Number(scale) == 5) {
-      Icon = labor5Icon
-    } else if (Number(scale) == 6) {
-      Icon = labor6Icon
-    } else if (Number(scale) == 7) {
-      Icon = labor7Icon
+    if (isLabor) {
+      if (Number(scale) == 5) {
+        Icon = labor5Icon
+      } else if (Number(scale) == 6) {
+        Icon = labor6Icon
+      } else if (Number(scale) == 7) {
+        Icon = labor7Icon
+      }
+    } else {
+      if (Number(scale) == 0) {
+        Icon = level0Icon
+      } else if (Number(scale) == 1) {
+        Icon = level1Icon
+      } else if (Number(scale) == 2) {
+        Icon = level2Icon
+      } else if (Number(scale) == 3) {
+        Icon = level3Icon
+      } else if (Number(scale) == 4) {
+        Icon = level4Icon
+      } else if (Number(scale) == 5) {
+        Icon = level5Icon
+      } else if (Number(scale) == 6) {
+        Icon = level6Icon
+      } else if (Number(scale) == 7) {
+        Icon = level7Icon
+      }
     }
     return <img width={32} className=' mr-1' src={Icon} alt="" />
   }
@@ -200,6 +198,7 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
         if (params.shareAddress) {
         } else {
           if (isTopInviterData || isHaveInviterData) {
+            console.log(12)
           } else {
             navigate("/home")
           }
@@ -328,7 +327,10 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
         </div>
 
         <div className=' relative flex items-center justify-center  cursor-pointer'>
-          {levelHtml()}
+          {
+            window.location.href.indexOf("card") != -1 ? levelHtml() : <></>
+          }
+
           {
             account ? <span className='ring-1 ring-black rounded-full px-2 py-1 inline-flex whitespace-nowrap items-center justify-center mr-3'  >
               {formatAccount(account, 5, 5)}

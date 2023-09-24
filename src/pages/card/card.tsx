@@ -11,7 +11,7 @@ import { Contract } from '@ethersproject/contracts'
 import ERC20ABI from '../../abi/ERC20.json';
 import HeadBar from '../../components/headbar'
 import { useTranslation } from 'react-i18next'
-import { earthIcon, moonIcon, startIcon, sunIcon } from '../../image'
+import { earthIcon, moonIcon, startIcon, sunIcon, upLevelIcon } from '../../image'
 
 const ethers = require('ethers');
 
@@ -538,7 +538,7 @@ function Card() {
         <div className=' flex'>
           <div className='w-1/2'>
             <div className=''>
-              <p className=' text-gray-400 '>资金池</p>
+              <p className=' text-gray-400 '>奖金池</p>
               <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 2)} <span className=' text-sm '>UDST</span> </p>
             </div>
           </div>
@@ -556,22 +556,8 @@ function Card() {
 
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className=' flex'>
-          <div className='flex-1 flex'>
-            <p className='mainTextColor font-bold w-1/2 pl-11'> {t("depositRecord")}</p>
-            <p className='mainTextColor font-bold w-1/2 text-right pr-5'> 分红值</p>
-          </div>
-          <div style={{ width: "70px" }}>
-            <p className='mainTextColor font-bold '>
-
-              {
-                upLevel && new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10**18).toString()) ? <span className=' border-solid border rounded-3xl py-1 px-4 mainTextColor font-bold borderMain cursor-pointer'
-                  onClick={() => {
-                    setUpLevelPop(true)
-                  }}
-                >升级 </span> : <span className=' border-solid border rounded-3xl py-1 px-4 text-gray-400 font-bold  border-gray-400 cursor-pointer'> 升级 </span>
-              }
-            </p>
-          </div>
+          <p className='mainTextColor font-bold w-1/2 pl-11'> {t("depositRecord")}</p>
+          <p className='mainTextColor font-bold w-1/2 pr-5'> 分红值</p>
         </div>
 
         <div className=' pt-2 pb-4 ' style={{
@@ -581,16 +567,18 @@ function Card() {
           {
             cards && cards.map((item: any, index: number) => {
               return <div className="rounded-md border p-1 flex leading-8 mb-2 " key={index}>
-                <div className='flex-1 flex'>
-                  <div className=' w-1/2 flex'>
-                    {ruleIcon(item)}
-                    <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
-                  </div>
-                  <div className=' w-1/2 text-right pr-5'>
-                    <p><span className='mainTextColor'>{BonusValue(item)}</span></p>
-                  </div>
+                <div className=' w-1/2 flex'>
+                  {ruleIcon(item)}
+                  <p className=' pl-2'><span className='mainTextColor'>{fromTokenValue(item.amount.toString(), 18, 3)}</span></p>
                 </div>
-                <div style={{ width: "70px" }}>&nbsp; </div>
+                <div className=' w-1/2 flex'>
+                  <p className='flex-1'><span className='mainTextColor pr-2'>{BonusValue(item)}</span></p>
+                  {
+                    index == 0 && upLevel && new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ? <img className=' w-8 h-8' src={upLevelIcon} alt="" onClick={() => {
+                      setUpLevelPop(true)
+                    }} /> : <></>
+                  }
+                </div>
               </div>
             })
           }
