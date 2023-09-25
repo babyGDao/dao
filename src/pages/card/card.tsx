@@ -347,7 +347,7 @@ function Card() {
         Icon = level7Icon
       }
     }
-    return <img width={32} className=' mr-1' src={Icon} alt="" />
+    return <img width={50} className=' mr-1' src={Icon} alt="" />
   }
 
   return (<>
@@ -590,7 +590,7 @@ function Card() {
           <div className='w-1/2'>
             <div className=''>
               <div className='flex'>
-                <p className=' text-gray-400 leading-8 pr-1'>奖金池</p>
+                <p className=' text-gray-400 pr-1' style={{lineHeight:"50px"}}>奖金池</p>
                 {
                   levelHtml()
                 }
