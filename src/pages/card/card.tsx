@@ -590,7 +590,7 @@ function Card() {
           <div className='w-1/2'>
             <div className=''>
               <div className='flex'>
-                <p className=' text-gray-400 pr-1' style={{lineHeight:"50px"}}>奖金池</p>
+                <p className=' text-gray-400 pr-1' style={{ lineHeight: "50px" }}>奖金池</p>
                 {
                   levelHtml()
                 }
@@ -610,6 +610,9 @@ function Card() {
         </div>
       </div>
 
+      <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+        <p className=' indent-8'> S0、S1和S2账户铸造100USDT卡牌就能获得奖励；S3、S4账户铸造500USDT卡牌就能获得奖励；S5及以上账户必须铸造1000USDT卡牌或者1500USDT卡牌才能获得奖励。</p>
+      </div>
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className=' flex'>
           <p className='mainTextColor font-bold w-1/2 pl-11'> {t("depositRecord")}</p>

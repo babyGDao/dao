@@ -76,7 +76,8 @@ function Community() {
       </div>
 
       <div className='bg-white rounded-2xl mx-3 mb-5 px-3 py-5 '>
-        <div className="pt-2 border-b-2 border-dashed pb-2">
+        {/* <div className="pt-2 border-b-2 border-dashed pb-2"> */}
+        <div className="pt-2 pb-2">
           <div >
             <p className=" text-gray-400 text-sm">
               {t("PromoteUsers")}:
@@ -90,11 +91,11 @@ function Community() {
             </p>
           </div>
         </div>
-        <div>
+        {/* <div>
           <p className=" indent-8 text-sm leading-6 p-2">
             S1、S2账户铸造100USDT卡牌就能获得奖励；S3、S4账户铸造500USDT卡牌就能获得奖励；S5及以上账户必须铸造1000USDT卡牌或者1500USDT卡牌才能获得奖励。
           </p>
-        </div>
+        </div> */}
       </div>
 
 
