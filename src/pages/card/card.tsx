@@ -119,10 +119,10 @@ function Card() {
         setLastCardAmount(lastCardData.amount.toString());
         const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
         let amount1 = new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.multiple).minus(lastCardData.income.toString()).toString()
-        let amount3 = new BigNumber(new BigNumber(timeNow).minus(lastCardData.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
-        let returnAmount = new BigNumber(amount1).minus(amount3).toString()
-        console.log("returnAmount", returnAmount)
-        if (!new BigNumber(returnAmount).isGreaterThan(0)) {
+        // let amount3 = new BigNumber(new BigNumber(timeNow).minus(lastCardData.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(lastCardData.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
+        // let returnAmount = new BigNumber(amount1).minus(amount3).toString()
+
+        if (new BigNumber(amount1).isZero()) {
           setUpLevel(false)
         } else {
           setUpLevel(true)
@@ -291,10 +291,10 @@ function Card() {
 
   const BonusValue = (item: any) => {
     const timeNow = Math.floor(new Date().getTime() / 1000 / Number(dayTime));
-    // amount * 倍数 - (income + (nowIndex - settleDayIndex) * 每天收益)
     let amount1 = new BigNumber(item.amount.toString()).multipliedBy(rule.multiple).minus(item.income.toString()).toString()
-    let amount3 = new BigNumber(new BigNumber(timeNow).minus(item.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(item.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
-    let returnAmount = new BigNumber(amount1).minus(amount3).toString()
+    // let amount3 = new BigNumber(new BigNumber(timeNow).minus(item.settleDayIndex.toString()).toString()).multipliedBy(new BigNumber(item.amount.toString()).multipliedBy(rule.ratio).dividedBy(100).toString()).toString()
+    // let returnAmount = new BigNumber(amount1).minus(amount3).toString()
+    let returnAmount = new BigNumber(amount1).toString()
 
     if (!new BigNumber(returnAmount).isGreaterThan(0)) {
       returnAmount = "0"
@@ -378,7 +378,7 @@ function Card() {
           <div>
             <div>
               <p className=' text-sm'>
-                {t("ParticipateInMarketMakingAmount")}: <span className='font-bold text-xl '>{sendAmount} </span> <span className=' text-sm ml-1 font-bold '>USDT</span>
+               金额: <span className='font-bold text-xl '>{sendAmount} </span> <span className=' text-sm ml-1 font-bold '>USDT</span>
               </p>
             </div>
           </div>

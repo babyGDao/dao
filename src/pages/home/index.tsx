@@ -41,7 +41,7 @@ export default function Home({ }) {
   const images = [
     {
       label: 'bannerIcon',
-      imgPath:bannerIcon,
+      imgPath: bannerIcon,
     },
   ];
 
@@ -230,26 +230,22 @@ export default function Home({ }) {
                   display: 'block',
                   overflow: 'hidden',
                   width: '100%',
-                  padding:"0px 10px"
+                  padding: "0px 10px"
                 }}
                 src={step.imgPath}
-                // alt={step.label}
               />
             </div>
           ))}
         </AutoPlaySwipeableViews>
       </div>
-
       <div className=" mx-3 pb-10 text-gray-400">
         <p className="indent-8 pb-3">
-          {t("home1")}
+          BABY Social DAO致力于Web3.0、Metaverse和NFT领域，让世界各地的区块链爱好者通过寻找宝贝来重新定义资源融合。这样，区块链爱好者可以愉快地参与而不影响他们的日常生活和工作，同时获得相应的区块链财富。
         </p>
         <p className="indent-8">
-          {t("home2")}
+          基于SOD综合应用的唯一性和独特性，BABY Social DAO非常看好其发展前景，社区成员将通过宝贝生态获取SOD等宝贝财富。
         </p>
       </div>
-
     </div>
   </>
-
 }
