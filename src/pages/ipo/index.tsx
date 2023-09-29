@@ -91,7 +91,7 @@ function Ipo() {
                 console.log("applyGuild info", info, info.toString(), info[1].toString())
                 const gas: any = await communityContract?.estimateGas.applyGuild(leaveType, info[1].toString(), { from: account })
                 console.log("applyGuild gas", gas)
-                const response = await communityContract?.applyGuild(3, info[1].toString(), {
+                const response = await communityContract?.applyGuild(leaveType, info[1].toString(), {
                     from: account,
                     gasLimit: gas.mul(105).div(100)
                 });
