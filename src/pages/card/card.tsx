@@ -495,19 +495,19 @@ function Card() {
           BABY宝贝卡牌种类
           {/* , <span className=' text-sm  font-normal'>让共识世界更有趣</span> */}
         </div>
-        <div className=' flex py-3'>
-          <div className=' w-2/3 flex flex-wrap'>
+        <div className='  py-3'>
+          <div className='  flex flex-wrap'>
             {
               new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(100).multipliedBy(10 ** 18).toString()) ?
-                <div className=' w-1/2 m-auto' >
-                  <div className={sendAmount == "100" ? "selectAmount flex" : "unSelectAmount flex"} onClick={() => {
+                <div className=' w-1/2  mb-1' >
+                  <div className={sendAmount == "100" ? "selectAmount flex m-auto" : "unSelectAmount flex m-auto"} onClick={() => {
                     setSendAmount("100")
                   }}>
                     {ruleIcon(toTokenValue(100, 18))}
                     <p className=' w-10 text-center leading-8'> 100</p>
                   </div>
-                </div> : <div className=' w-1/2 m-auto'>
-                  <div className="selectAmountDisable flex">
+                </div> : <div className=' w-1/2  mb-1' >
+                  <div className="selectAmountDisable m-auto flex">
                     {ruleIcon(toTokenValue(100, 18))}
                     <p className='w-10 text-center leading-8'> 100</p>
                   </div>
@@ -516,15 +516,15 @@ function Card() {
 
             {
               new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(500).multipliedBy(10 ** 18).toString()) ?
-                <div className=' w-1/2'>
-                  <div className={sendAmount == "500" ? "selectAmount flex" : "unSelectAmount flex"} onClick={() => {
+                <div className=' w-1/2 mb-1' >
+                  <div className={sendAmount == "500" ? "selectAmount m-auto flex" : "unSelectAmount m-auto flex"} onClick={() => {
                     setSendAmount("500")
                   }}>
                     {ruleIcon(toTokenValue(500, 18))}
                     <p className=' w-10 text-center leading-8'> 500</p>
                   </div>
-                </div> : <div className=' w-1/2'>
-                  <div className="selectAmountDisable flex">
+                </div> : <div className=' w-1/2 mb-1' >
+                  <div className="selectAmountDisable flex  m-auto">
                     {ruleIcon(toTokenValue(500, 18))}
                     <p className=' w-10 text-center leading-8'> 500</p>
                   </div>
@@ -534,15 +534,15 @@ function Card() {
 
             {
               new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1000).multipliedBy(10 ** 18).toString()) ?
-                <div className=' w-1/2'>
-                  <div className={sendAmount == "1000" ? "selectAmount flex" : "unSelectAmount flex"} onClick={() => {
+                <div className=' w-1/2 mb-1' >
+                  <div className={sendAmount == "1000" ? "selectAmount flex m-auto " : "unSelectAmount flex m-auto "} onClick={() => {
                     setSendAmount("1000")
                   }}>
                     {ruleIcon(toTokenValue(1000, 18))}
                     <p className=' w-10 text-center leading-8'> 1000</p>
                   </div>
-                </div> : <div className=' w-1/2'>
-                  <div className="selectAmountDisable flex">
+                </div> : <div className=' w-1/2 mb-1' >
+                  <div className="selectAmountDisable flex m-auto">
                     {ruleIcon(toTokenValue(1000, 18))}
                     <p className=' w-10 text-center leading-8'> 1000</p>
                   </div>
@@ -551,24 +551,23 @@ function Card() {
 
             {
               new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ?
-                <div className=' w-1/2'>
-                  <div className={sendAmount == "1500" ? "selectAmount flex" : "unSelectAmount flex"} onClick={() => {
+                <div className=' w-1/2  mb-1' >
+                  <div className={sendAmount == "1500" ? "selectAmount flex m-auto" : "unSelectAmount flex m-auto"} onClick={() => {
                     setSendAmount("1500")
                   }}>
                     {ruleIcon(toTokenValue(1500, 18))}
                     <p className=' w-10 text-center leading-8'> 1500</p>
                   </div>
-                </div> : <div className=' w-1/2'>
-                  <div className="selectAmountDisable flex">
+                </div> : <div className=' w-1/2  mb-1' >
+                  <div className="selectAmountDisable flex m-auto">
                     {ruleIcon(toTokenValue(1500, 18))}
                     <p className=' w-10 text-center leading-8'> 1500</p>
                   </div>
                 </div>
             }
           </div>
-
-          <div className=' w-1/3 flex-1'>
-            <p className=' ' style={{ lineHeight: "80px" }}>
+          <div className=' flex-1'>
+            <p className=' text-center  mt-2'>
               {
                 !upLevel ? <span className=' border-solid border rounded-3xl py-2 px-4 mainTextColor font-bold borderMain cursor-pointer'
                   onClick={() => {
