@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { isAddress, useCommunityNetContract, } from "../../hooks/useContract";
 import { useWeb3React } from "@web3-react/core";
@@ -22,6 +22,8 @@ export default function Home({ }) {
   const { account, library } = useWeb3React()
   const params = useParams()
   const { t } = useTranslation()
+  const navigate = useNavigate();
+
   const communityContract = useCommunityNetContract(communityAddr);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,28 +38,20 @@ export default function Home({ }) {
 
   const [shareAddr, setShareAddr] = useState<string>("")
   const [sharePop, setSharePop] = useState<boolean>(false)
-
   const [activeStep, setActiveStep] = useState(0);
   const images = [
     {
       label: 'bannerIcon',
       imgPath: bannerIcon,
+      nav:"/home"
     },
+    {
+      label: 'bannerIcon1',
+      imgPath: bannerIcon1,
+      nav:"/card"
+    }
   ];
-
-  const maxSteps = images.length;
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleStepChange = (step: number) => {
-    setActiveStep(step);
-  };
+ 
 
   useEffect(() => {
     setLoadingHome(false)
@@ -89,7 +83,6 @@ export default function Home({ }) {
       }
 
       let dataInviter = await communityContract?.inviter(account);
-      console.log("inviter", dataInviter)
       let isHaveInviterData
       if (dataInviter == AddressZero) {
         isHaveInviterData = false
@@ -164,7 +157,10 @@ export default function Home({ }) {
     }, 2000);
   }
 
-
+  const handleNavImg=(navLink:string)=>{
+    console.log("handleImg",navLink)
+    navigate(navLink)
+  }
 
   return <>
     <HeadBar setOpen={setSharePop} isRegister={isRegister} />
@@ -215,16 +211,17 @@ export default function Home({ }) {
       </Dialog>
 
       <div className=" pt-32 pb-10 text-center  "  >
-
         <AutoPlaySwipeableViews
           axis={'x'}
           index={activeStep}
-          onChangeIndex={handleStepChange}
           enableMouseEvents
         >
           {images.map((step, index) => (
-            <div key={step.label}>
+            <div key={step.label} >
               <Box
+                onClick={()=>{
+                  handleNavImg(step.nav)
+                }}
                 component="img"
                 sx={{
                   display: 'block',

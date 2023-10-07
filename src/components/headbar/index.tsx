@@ -27,7 +27,6 @@ interface IHeadBar {
   isRegister?: Boolean
 }
 
-const BabyGameAddr = process.env.REACT_APP_CONTRACT_BABYGAME + ""
 const communityAddr = process.env.REACT_APP_CONTRACT_COMMUNITY + ""
 
 const TopAddr = process.env.REACT_APP_TOPINVITER + ""
@@ -198,7 +197,6 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
         if (params.shareAddress) {
         } else {
           if (isTopInviterData || isHaveInviterData) {
-            console.log(12)
           } else {
             navigate("/home")
           }
@@ -213,7 +211,6 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
     setMenuOpen(false)
 
     if (isHaveInviter || isTopInviter || url == "/ipo") {
-      console.log("222")
       navigate(url)
     } else {
       navigate("/home")
