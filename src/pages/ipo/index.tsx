@@ -87,10 +87,7 @@ function Ipo() {
             setLoadingText(`${t("TransactionPacking")}`)
             try {
                 let info = await routerContract?.getAmountsOut(toTokenValue(new BigNumber(sendAmount).multipliedBy(55).dividedBy(200).toString(), decimals), [usdtAddr, tokenkAddr])
-
-                console.log("applyGuild info", info, info.toString(), info[1].toString())
                 const gas: any = await communityContract?.estimateGas.applyGuild(leaveType, info[1].toString(), { from: account })
-                console.log("applyGuild gas", gas)
                 const response = await communityContract?.applyGuild(leaveType, info[1].toString(), {
                     from: account,
                     gasLimit: gas.mul(105).div(100)
