@@ -6,7 +6,7 @@ import TipPop from '../../components/pop/TipPop'
 import { fromTokenValue } from '../../utils'
 import BigNumber from "bignumber.js";
 import { useTranslation } from 'react-i18next'
-import {  useCommunityNetContract } from '../../hooks/useContract'
+import { useCommunityNetContract } from '../../hooks/useContract'
 
 const ethers = require('ethers');
 
@@ -28,7 +28,7 @@ function Wealth() {
     }, [account])
 
     const init = () => {
-        console.log("communityContract",communityContract)
+        console.log("communityContract", communityContract)
         getReparations()
     }
     // getReparations
@@ -132,24 +132,20 @@ function Wealth() {
             {
                 dataList && dataList.map((item: any, index: number) => {
                     return <div className='bg-white rounded-2xl  mx-3 mb-5 p-3' key={index}>
-                        <h3 className='mainTextColor font-bold text-2xl text-center mb-2'> {t("RebornFortune")}{dataList.length - index} {t("Expect")}</h3>
+                        <h3 className='mainTextColor font-bold text-2xl text-center mb-2'> 宝贝财富第 {dataList.length - index} 期</h3>
                         <div>
                             <div className=' flex'>
                                 <div className=' w-52'>
                                     <div>
                                         <div className='  flex mb-2'>
-                                            <img
-                                                className=' w-5 h-5 mr-2'
-                                                src={menuIcon} alt="" />
+                                            <img className=' w-5 h-5 mr-2' src={menuIcon} alt="" />
                                             <p className='text-gray-400 text-sm '> {t("RebirthWealthRewardsToBeWithdrawn")}</p>
                                         </div>
                                         <p className='font-bold text-xl  break-words '>
                                             {
                                                 ItemEarnings(item)
                                             }
-                                            <span className=' mx-1'>
-                                                +
-                                            </span>
+                                            <span className=' mx-1'> + </span>
                                             <span className='text-gray-400'>
                                                 {
                                                     ItemNotReleased(item)

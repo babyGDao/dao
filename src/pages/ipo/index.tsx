@@ -48,7 +48,7 @@ function Ipo() {
     // leaveNum
     const getLeaveNum = async () => {
         let data = await Promise.all([await communityContract?.leaveNum("3"), await communityContract?.leaveNum("5"), await communityContract?.leaveNum("6"), await communityContract?.leaveNum("7")])
-        console.log("data",data)
+        console.log("data", data)
         setLeaveNum3(data[0].toString())
         setLeaveNum5(data[1].toString())
         setLeaveNum6(data[2].toString())
@@ -176,116 +176,128 @@ function Ipo() {
             <TipPop open={loading} setOpen={setLoading} loadingText={loadingText} loadingState={loadingState} />
             <div className=' pt-32  mx-3 pb-10'>
             </div>
+            {
+                new BigNumber(leaveNum7).isZero() ? <></> : <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+                    <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("GlobalCreationAssociation")} </h3>
+                    <div className=' flex my-3'>
+                        <div className=' flex-1 text-center'>
+                            <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>{leaveNum7}</p>
+                        </div>
+                        <div className=' flex-1 text-center'>
+                            <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>10000 <span className=' text-sm'>USDT</span></p>
+                        </div>
+                    </div>
+                    <div>
+                        <p className='text-gray-400'>{t("ipo2")} </p>
+                    </div>
+                    <div className=" text-center my-2 py-2">
+                        <p>
+                            {
+                                new BigNumber(scale).isGreaterThan("0") ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>10000 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
+                                    onClick={() => {
+                                        sendApplyGuild(7)
+                                    }}
+                                >10000 USDT </span>
+                            }
+                        </p>
+                    </div>
+                </div>
+            }
 
-            <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
-                <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("GlobalCreationAssociation")} </h3>
-                <div className=' flex my-3'>
-                    <div className=' flex-1 text-center'>
-                        <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>{leaveNum7}</p>
-                    </div>
-                    <div className=' flex-1 text-center'>
-                        <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>10000 <span className=' text-sm'>USDT</span></p>
-                    </div>
-                </div>
-                <div>
-                    <p className='text-gray-400'>{t("ipo2")} </p>
-                </div>
-                <div className=" text-center my-2 py-2">
-                    <p>
-                        {
-                            new BigNumber(scale).isGreaterThan("0") || new BigNumber(leaveNum7).isZero() ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>10000 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
-                                onClick={() => {
-                                    sendApplyGuild(7)
-                                }}
-                            >10000 USDT </span>
-                        }
-                    </p>
-                </div>
-            </div>
 
-            <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
-                <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("GlobalSuperGuild")} </h3>
-                <div className=' flex my-3'>
-                    <div className=' flex-1 text-center'>
-                        <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>{leaveNum6}</p>
+            {
+                new BigNumber(leaveNum6).isZero() ? <></> : <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+                    <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("GlobalSuperGuild")} </h3>
+                    <div className=' flex my-3'>
+                        <div className=' flex-1 text-center'>
+                            <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>{leaveNum6}</p>
+                        </div>
+                        <div className=' flex-1 text-center'>
+                            <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>5000 <span className=' text-sm'>USDT</span></p>
+                        </div>
                     </div>
-                    <div className=' flex-1 text-center'>
-                        <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>5000 <span className=' text-sm'>USDT</span></p>
+                    <div>
+                        <p className='text-gray-400'>{t("ipo3")} </p>
+                    </div>
+                    <div className=" text-center my-2 py-2">
+                        <p>
+                            {
+                                new BigNumber(scale).isGreaterThan("0") ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>5000 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
+                                    onClick={() => {
+                                        sendApplyGuild(6)
+                                    }}
+                                >5000 USDT </span>
+                            }
+                        </p>
                     </div>
                 </div>
-                <div>
-                    <p className='text-gray-400'>{t("ipo3")} </p>
-                </div>
-                <div className=" text-center my-2 py-2">
-                    <p>
-                        {
-                            new BigNumber(scale).isGreaterThan("0") || new BigNumber(leaveNum6).isZero() ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>5000 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
-                                onClick={() => {
-                                    sendApplyGuild(6)
-                                }}
-                            >5000 USDT </span>
-                        }
-                    </p>
-                </div>
-            </div>
+            }
 
-            <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
-                <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("GlobalCommunityGuild")} </h3>
-                <div className=' flex my-3'>
-                    <div className=' flex-1 text-center'>
-                        <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>{leaveNum5}</p>
-                    </div>
-                    <div className=' flex-1 text-center'>
-                        <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>2000 <span className=' text-sm'>USDT</span></p>
-                    </div>
-                </div>
-                <div>
-                    <p className='text-gray-400'>{t("ipo4")} </p>
-                </div>
-                <div className=" text-center my-2 py-2">
-                    <p>
-                        {
-                            new BigNumber(scale).isGreaterThan("0") || new BigNumber(leaveNum5).isZero() ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>2000 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
-                                onClick={() => {
-                                    sendApplyGuild(5)
-                                }}
-                            >2000 USDT </span>
-                        }
-                    </p>
-                </div>
-            </div>
 
-            <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
-                <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("Application")} S3 </h3>
-                <div className=' flex my-3'>
-                    <div className=' flex-1 text-center'>
-                        <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>{leaveNum3}</p>
+            {
+                new BigNumber(leaveNum5).isZero() ? <></> : <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+                    <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("GlobalCommunityGuild")} </h3>
+                    <div className=' flex my-3'>
+                        <div className=' flex-1 text-center'>
+                            <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>{leaveNum5}</p>
+                        </div>
+                        <div className=' flex-1 text-center'>
+                            <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>2000 <span className=' text-sm'>USDT</span></p>
+                        </div>
                     </div>
-                    <div className=' flex-1 text-center'>
-                        <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
-                        <p className='  font-bold text-3xl leading-loose'>500 <span className=' text-sm'>USDT</span></p>
+                    <div>
+                        <p className='text-gray-400'>{t("ipo4")} </p>
+                    </div>
+                    <div className=" text-center my-2 py-2">
+                        <p>
+                            {
+                                new BigNumber(scale).isGreaterThan("0") ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>2000 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
+                                    onClick={() => {
+                                        sendApplyGuild(5)
+                                    }}
+                                >2000 USDT </span>
+                            }
+                        </p>
                     </div>
                 </div>
+            }
 
-                <div className=" text-center my-2 py-2">
-                    <p>
-                        {
-                            new BigNumber(scale).isGreaterThan("0") || new BigNumber(leaveNum3).isZero() ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>500 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
-                                onClick={() => {
-                                    sendApplyGuild(3)
-                                }}
-                            >500 USDT </span>
-                        }
-                    </p>
+
+            {
+                new BigNumber(leaveNum3).isZero() ? <></> : <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+                    <h3 className='mainTextColor font-bold text-2xl mt-2'>{t("Application")} S3 </h3>
+                    <div className=' flex my-3'>
+                        <div className=' flex-1 text-center'>
+                            <p className='  text-gray-400 text-sm'>{t("Quota")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>{leaveNum3}</p>
+                        </div>
+                        <div className=' flex-1 text-center'>
+                            <p className='text-gray-400 text-sm'>{t("theAmount")} </p>
+                            <p className='  font-bold text-3xl leading-loose'>500 <span className=' text-sm'>USDT</span></p>
+                        </div>
+                    </div>
+
+                    <div className=" text-center my-2 py-2">
+                        <p>
+                            {
+                                new BigNumber(scale).isGreaterThan("0") ? <span className=' border-solid border rounded-3xl py-2 px-16 text-gray-400 font-bold  border-gray-400 cursor-pointer'>500 USDT </span> : <span className=' border-solid border rounded-3xl py-2 px-16 mainTextColor font-bold borderMain cursor-pointer'
+                                    onClick={() => {
+                                        sendApplyGuild(3)
+                                    }}
+                                >500 USDT </span>
+                            }
+                        </p>
+                    </div>
                 </div>
-            </div>
+            }
+
+
         </div>
     </>
     )

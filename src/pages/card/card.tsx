@@ -45,6 +45,8 @@ const rule = {
   multiple: 2
 };
 
+const openCard = false
+
 function Card() {
   const { t } = useTranslation()
   const babyCardContract = useBabyCardContract(BabyCardAddr)
@@ -70,7 +72,8 @@ function Card() {
   const [teamAmount, setTeamAmount] = useState<string>("0");
 
   const [scale, setScale] = useState<string>("0")
-  const [isLabor, setIsLabor] = useState<boolean>(false)
+  const [isLabor, setIsLabor] = useState<boolean>(false);
+  const [detailPop, setDetailPop] = useState<boolean>(false);
   useEffect(() => {
     init()
   }, [account])
@@ -472,8 +475,36 @@ function Card() {
           </div>
         </DialogContent>
       </Dialog>
-      <div className='bg-white rounded-2xl  mt-32  mx-3 mb-5 p-3'>
-        <div className='flex '>
+
+
+      <Dialog
+        open={detailPop}
+        onClose={() => {
+          setDetailPop(false)
+        }}
+        sx={{
+          '& .MuiDialog-paper': {
+            width: 300,
+            maxWidth: '80%',
+            background: '#fff',
+          }
+        }}
+        maxWidth="md"
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <div>
+            <p className=" font-bold text-xl mainTextColor mb-2  ">宝贝卡牌说明</p>
+          </div>
+          <div>
+            <p className=' indent-8'>S0、S1、S2账户铸造100 USDT卡牌就能获得奖励；S3、S4账户铸造500USDT卡牌就能获得奖励；S5及以上账户必须铸造1000 USDT 卡牌或者1500 USDT卡牌才能获得奖励。每期BABY宝贝卡牌生态结束时，针对参与铸造但未达成1张BABY宝贝卡牌的账户尚未回本部分按1.2倍财富奖励。以SOD实时价格，每日（8：00）金本位补偿SOD，按照300天周期平均固定。</p>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <div className='bg-white rounded-2xl  mt-32  mx-3 mb-5 p-3 flex'>
+        <div className=' flex-1 flex '>
           <div className=' flex-1'>
             <p className=' text-sm text-gray-400'>USDT {t("walletBalance")}</p>
             <p className=' font-bold text-xl leading-loose'>
@@ -486,6 +517,11 @@ function Card() {
             <p className=' text-sm text-gray-400'>USDT 复消余额</p>
             <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(accountBalance, 18, 2)}</p>
           </div>
+        </div>
+        <div>
+          <p style={{ lineHeight: "60px" }} className=' mainTextColor font-bold cursor-pointer' onClick={() => {
+            setDetailPop(true);
+          }}>说明</p>
         </div>
       </div>
 
@@ -514,7 +550,7 @@ function Card() {
             }
 
             {
-              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(500).multipliedBy(10 ** 18).toString()) ?
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(500).multipliedBy(10 ** 18).toString()) && openCard ?
                 <div className=' w-1/2 mb-1' >
                   <div className={sendAmount == "500" ? "selectAmount m-auto flex" : "unSelectAmount m-auto flex"} onClick={() => {
                     setSendAmount("500")
@@ -532,7 +568,7 @@ function Card() {
 
 
             {
-              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1000).multipliedBy(10 ** 18).toString()) ?
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1000).multipliedBy(10 ** 18).toString()) && openCard ?
                 <div className=' w-1/2 mb-1' >
                   <div className={sendAmount == "1000" ? "selectAmount flex m-auto " : "unSelectAmount flex m-auto "} onClick={() => {
                     setSendAmount("1000")
@@ -549,7 +585,7 @@ function Card() {
             }
 
             {
-              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ?
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1500).multipliedBy(10 ** 18).toString()) && openCard ?
                 <div className=' w-1/2  mb-1' >
                   <div className={sendAmount == "1500" ? "selectAmount flex m-auto" : "unSelectAmount flex m-auto"} onClick={() => {
                     setSendAmount("1500")
@@ -630,9 +666,9 @@ function Card() {
         </div>
       </div>
 
-      <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
-        <p className=' indent-8'> S0、S1和S2账户铸造100USDT卡牌就能获得奖励；S3、S4账户铸造500USDT卡牌就能获得奖励；S5及以上账户必须铸造1000USDT卡牌或者1500USDT卡牌才能获得奖励。</p>
-      </div>
+      {/* <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
+        <p className=' indent-8'> 每期BABY宝贝卡牌生态结束时，针对参与铸造但未达成1张BABY宝贝卡牌的账户尚未回本部分按1.2倍财富奖励。以SOD实时价格，每日（8：00）金本位补偿SOD，按照300天周期平均固定。</p>
+      </div> */}
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
         <div className=' flex'>
           <p className='mainTextColor font-bold w-1/2 pl-11'> {t("depositRecord")}</p>
@@ -652,7 +688,7 @@ function Card() {
                 <div className=' w-1/2 flex'>
                   <p className='flex-1'><span className='mainTextColor pr-2'>{BonusValue(item)}</span></p>
                   {
-                    index == 0 && upLevel && new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ? <img className=' w-8 h-8' src={upLevelIcon} alt="" onClick={() => {
+                    index == 0 && upLevel && new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) && openCard ? <img className=' w-8 h-8' src={upLevelIcon} alt="" onClick={() => {
                       setUpLevelPop(true)
                     }} /> : <></>
                   }
