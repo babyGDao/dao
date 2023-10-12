@@ -518,18 +518,22 @@ function Card() {
             <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(accountBalance, 18, 2)}</p>
           </div>
         </div>
-        <div>
-          <p style={{ lineHeight: "60px" }} className=' mainTextColor font-bold cursor-pointer' onClick={() => {
-            setDetailPop(true);
-          }}>说明</p>
-        </div>
+
       </div>
 
       <div className='bg-white rounded-2xl  mx-3 mb-5 p-3'>
-        <div className='mainTextColor font-bold'>
-          BABY宝贝卡牌种类
-          {/* , <span className=' text-sm  font-normal'>让共识世界更有趣</span> */}
+        <div className='flex'>
+          <div className='flex-1 mainTextColor font-bold'>
+            BABY宝贝卡牌种类
+            {/* , <span className=' text-sm  font-normal'>让共识世界更有趣</span> */}
+          </div>
+          <div>
+            <p  className=' mainTextColor font-bold cursor-pointer pr-4' onClick={() => {
+              setDetailPop(true);
+            }}>说明</p>
+          </div>
         </div>
+
         <div className='  py-3'>
           <div className='  flex flex-wrap'>
             {
