@@ -45,7 +45,13 @@ const rule = {
   multiple: 2
 };
 
-const openCard = false
+const openCardList = {
+  100: true,
+  500: true,
+  1000: true,
+  1500: false,
+  levelUp: false
+}
 
 function Card() {
   const { t } = useTranslation()
@@ -528,7 +534,7 @@ function Card() {
             {/* , <span className=' text-sm  font-normal'>让共识世界更有趣</span> */}
           </div>
           <div>
-            <p  className=' mainTextColor font-bold cursor-pointer pr-4' onClick={() => {
+            <p className=' mainTextColor font-bold cursor-pointer pr-4' onClick={() => {
               setDetailPop(true);
             }}>说明</p>
           </div>
@@ -537,7 +543,7 @@ function Card() {
         <div className='  py-3'>
           <div className='  flex flex-wrap'>
             {
-              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(100).multipliedBy(10 ** 18).toString()) ?
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(100).multipliedBy(10 ** 18).toString()) && openCardList[100] ?
                 <div className=' w-1/2  mb-1' >
                   <div className={sendAmount == "100" ? "selectAmount flex m-auto" : "unSelectAmount flex m-auto"} onClick={() => {
                     setSendAmount("100")
@@ -554,7 +560,7 @@ function Card() {
             }
 
             {
-              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(500).multipliedBy(10 ** 18).toString()) && openCard ?
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(500).multipliedBy(10 ** 18).toString()) && openCardList[500] ?
                 <div className=' w-1/2 mb-1' >
                   <div className={sendAmount == "500" ? "selectAmount m-auto flex" : "unSelectAmount m-auto flex"} onClick={() => {
                     setSendAmount("500")
@@ -572,7 +578,7 @@ function Card() {
 
 
             {
-              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1000).multipliedBy(10 ** 18).toString()) && openCard ?
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1000).multipliedBy(10 ** 18).toString()) && openCardList[1000] ?
                 <div className=' w-1/2 mb-1' >
                   <div className={sendAmount == "1000" ? "selectAmount flex m-auto " : "unSelectAmount flex m-auto "} onClick={() => {
                     setSendAmount("1000")
@@ -589,7 +595,7 @@ function Card() {
             }
 
             {
-              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1500).multipliedBy(10 ** 18).toString()) && openCard ?
+              new BigNumber(lastCardAmount).isLessThanOrEqualTo(new BigNumber(1500).multipliedBy(10 ** 18).toString()) && openCardList[1500] ?
                 <div className=' w-1/2  mb-1' >
                   <div className={sendAmount == "1500" ? "selectAmount flex m-auto" : "unSelectAmount flex m-auto"} onClick={() => {
                     setSendAmount("1500")
@@ -692,7 +698,7 @@ function Card() {
                 <div className=' w-1/2 flex'>
                   <p className='flex-1'><span className='mainTextColor pr-2'>{BonusValue(item)}</span></p>
                   {
-                    index == 0 && upLevel && new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) && openCard ? <img className=' w-8 h-8' src={upLevelIcon} alt="" onClick={() => {
+                    index == 0 && upLevel && new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) && openCardList.levelUp ? <img className=' w-8 h-8' src={upLevelIcon} alt="" onClick={() => {
                       setUpLevelPop(true)
                     }} /> : <></>
                   }
