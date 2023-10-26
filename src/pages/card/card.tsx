@@ -50,7 +50,7 @@ const openCardList = {
   500: true,
   1000: true,
   1500: false,
-  levelUp: false
+  levelUp: true
 }
 
 function Card() {
@@ -432,7 +432,7 @@ function Card() {
             <div className='flex flex-wrap'>
 
               {
-                new BigNumber(lastCardAmount).isLessThan(new BigNumber(500).multipliedBy(10 ** 18).toString()) ? <div className=' flex-1 m-auto mb-1' >
+                new BigNumber(lastCardAmount).isLessThan(new BigNumber(500).multipliedBy(10 ** 18).toString()) && openCardList[500] ? <div className=' flex-1 m-auto mb-1' >
                   <div className={sendAmount == "500" ? "selectAmount flex" : "unSelectAmount flex"} onClick={() => {
                     setSendAmount("500")
                   }}>
@@ -443,7 +443,7 @@ function Card() {
               }
 
               {
-                new BigNumber(lastCardAmount).isLessThan(new BigNumber(1000).multipliedBy(10 ** 18).toString()) ? <div className=' flex-1 m-auto mb-1' >
+                new BigNumber(lastCardAmount).isLessThan(new BigNumber(1000).multipliedBy(10 ** 18).toString()) && openCardList[1000] ? <div className=' flex-1 m-auto mb-1' >
                   <div className={sendAmount == "1000" ? "selectAmount flex" : "unSelectAmount flex"} onClick={() => {
                     setSendAmount("1000")
                   }}>
@@ -454,7 +454,7 @@ function Card() {
               }
 
               {
-                new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) ? <div className=' flex-1 m-auto mb-1' >
+                new BigNumber(lastCardAmount).isLessThan(new BigNumber(1500).multipliedBy(10 ** 18).toString()) && openCardList[1500] ? <div className=' flex-1 m-auto mb-1' >
                   <div className={sendAmount == "1500" ? "selectAmount flex" : "unSelectAmount flex"} onClick={() => {
                     setSendAmount("1500")
                   }}>
