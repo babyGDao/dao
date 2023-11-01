@@ -257,13 +257,13 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
                   <img width={20} height={20} src={homeIcon} alt='' />
                   <ListItemText className=' ml-2 ' primary={`${t("home")}`} />
                 </ListItemButton>
-{/* 
+
                 <ListItemButton onClick={() => {
                   navLink("/ipo")
                 }}>
                   <img width={20} height={20} src={planIcon} alt='' />
                   <ListItemText className=' ml-2 ' primary={"S3 申请"} />
-                </ListItemButton> */}
+                </ListItemButton>
 
                 <ListItemButton onClick={() => { handleClick("ecology") }}>
                   <img width={20} height={20} src={ecologyIcon} alt='' />
