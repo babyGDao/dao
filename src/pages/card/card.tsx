@@ -49,7 +49,7 @@ const openCardList = {
   100: true,
   500: true,
   1000: true,
-  1500: false,
+  1500: true,
   levelUp: true
 }
 
@@ -643,13 +643,13 @@ function Card() {
               {
                 !upLevel ? "0.00" : fromTokenValue(lastCardAmount, 18, 2)
               }
-              <span className=' text-sm '>UDST</span></p>
+              <span className=' text-sm '>USDT</span></p>
           </div>
           <div className=' w-1/2'>
             <p className=' text-gray-400 '>社区铸造金额</p>
             <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>
               {fromTokenValue(teamAmount, 18, 2)}
-              <span className=' text-sm '>UDST</span></p>
+              <span className=' text-sm '>USDT</span></p>
           </div>
         </div>
         <div className=' flex'>
@@ -661,7 +661,7 @@ function Card() {
                   levelHtml()
                 }
               </div>
-              <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 2)} <span className=' text-sm '>UDST</span> </p>
+              <p className=' font-bold text-xl leading-loose break-words whitespace-normal'>{fromTokenValue(withDrawAmount, 18, 2)} <span className=' text-sm '>USDT</span> </p>
             </div>
           </div>
           <div className='w-1/2'>
