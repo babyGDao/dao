@@ -181,7 +181,7 @@ function Card() {
       }
 
       try {
-        let info = await routerContract?.getAmountsOut(toTokenValue(new BigNumber(dataAmount).multipliedBy(8).multipliedBy(70).dividedBy(10000).toString(), decimals), [usdtAddr, tokenkAddr])
+        let info = await routerContract?.getAmountsOut(toTokenValue(new BigNumber(dataAmount).multipliedBy(6).multipliedBy(70).dividedBy(10000).toString(), decimals), [usdtAddr, tokenkAddr])
         const sendAmount=new BigNumber(info[1].toString()).multipliedBy(998).dividedBy(1000).toFixed(0)
 
         console.log("sendAmount",sendAmount)
