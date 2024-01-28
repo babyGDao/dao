@@ -184,8 +184,9 @@ function HeadBar({ setOpen, ipoChange, isRegister }: IHeadBar) {
           setIsTopInviter(false)
           isTopInviterData = false;
         }
+        // let dataInviter = await communityContract?.inviter("0x3d0Cb775511790aB758C288E5af5F40B404E9B78");
         let dataInviter = await communityContract?.inviter(account);
-
+        
         let isHaveInviterData
         if (dataInviter == AddressZero) {
           isHaveInviterData = false

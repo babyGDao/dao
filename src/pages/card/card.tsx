@@ -182,9 +182,13 @@ function Card() {
 
       try {
         let info = await routerContract?.getAmountsOut(toTokenValue(new BigNumber(dataAmount).multipliedBy(8).multipliedBy(70).dividedBy(10000).toString(), decimals), [usdtAddr, tokenkAddr])
-        const gas: any = await babyCardContract?.estimateGas.buyCard(type, buyType, info[1].toString(), { from: account });
+        const sendAmount=new BigNumber(info[1].toString()).multipliedBy(998).dividedBy(1000).toFixed(0)
 
-        const response = await babyCardContract?.buyCard(type, buyType, info[1].toString(), {
+        console.log("sendAmount",sendAmount)
+        const gas: any = await babyCardContract?.estimateGas.buyCard(type, buyType, sendAmount, { from: account });
+        console.log("gas",gas)
+
+        const response = await babyCardContract?.buyCard(type, buyType, sendAmount, {
           from: account,
           gasLimit: gas.mul(105).div(100)
         });
